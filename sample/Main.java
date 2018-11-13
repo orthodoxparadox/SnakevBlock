@@ -9,8 +9,11 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -361,6 +364,10 @@ public class Main extends Application {
         IntStream.range(0, tokens.size()).forEachOrdered(i -> {
             if(P.getSnake().checkIntersection(tokens.get(i)))
             {
+                String mediaFile = "src/sample/TokenSound.mp3";
+                Media sound = new Media(new File(mediaFile).toURI().toString());
+                MediaPlayer player = new MediaPlayer(sound);
+                player.play();
                 mainframe.getChildren().remove(tokens.get(i));
                 to_be_removedT.add(tokens.get(i));
             }
