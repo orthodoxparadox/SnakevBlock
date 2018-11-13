@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Block extends Rectangle {
     private final int width = Constants.width;
@@ -26,12 +27,11 @@ public class Block extends Rectangle {
         this.setArcWidth(20.0);
         this.strength = strength;
         label = new Label(Integer.toString(strength));
-        this.label.setTextFill(Color.WHITE);
+        this.label.setTextFill(Color.BLACK);
         this.label.setLayoutX(xc  + 25);
         this.label.setLayoutY(yc  + 20);
         this.label.setAlignment(Pos.CENTER);
-        Random r = new Random(System.currentTimeMillis());
-        this.setFill(colors.get(r.nextInt(5)));
+        this.setFill(colors.get(ThreadLocalRandom.current().nextInt(5)));
     }
     public int getStrength() {
         return strength;
