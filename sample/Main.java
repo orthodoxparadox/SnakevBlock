@@ -1,17 +1,23 @@
 package sample;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,11 +33,15 @@ public class Main extends Application {
     Player P = new Player(mainframe);
     private double last = 0;
     private double t;
+    private AnimationTimer animationTimer;
 
     private final int width = Constants.width;
     private final int height = Constants.height;
     private final int rows = Constants.rows;
     private static int debug = 0;
+    private boolean isRunning;
+    private final int sensitivity = Constants.sensitivity;
+    private double refreshRate = 2.5;
 
 
     public void makeRowOfBlocks(ArrayList<Integer> pos, ArrayList<Integer> strength)
@@ -97,7 +107,7 @@ public class Main extends Application {
 
     public void generateAndRefresh()
     {
-        System.out.println("check" + " " + debug++);
+//        System.out.println("check" + " " + debug++);
         if(t > 10)
         {
             t = 0;
@@ -133,11 +143,11 @@ public class Main extends Application {
         }
         Random r = new Random(System.currentTimeMillis());
         double model = Math.random();
-        System.out.println(model);
+//        System.out.println(model);
         if(model >= 0.96)
         {
             last = 0;
-            System.err.println("here");
+//            System.err.println("here");
             int wallCount = r.nextInt(3);
             for(int i = 0; i < wallCount; i++)
             {
@@ -167,7 +177,7 @@ public class Main extends Application {
                     {
                         if(cnt++ > 10)
                         {
-                            System.err.println("err1");
+//                            System.err.println("err1");
                             break;
                         }
                     }
@@ -176,10 +186,11 @@ public class Main extends Application {
                 else if(probability > 0.2)
                 {
                     //balls
-                    while(!addBall(width/20 + r.nextInt(width-width/10), height/10 + r.nextInt(height/20), 3 + (int)Math.abs(r.nextGaussian())))
+                    int ball_strength = (int)(Math.random()*5) + 1;
+                    while(!addBall(width/20 + r.nextInt(width-width/10), height/10 + r.nextInt(height/20), ball_strength))
                     {
                         if(cnt++ > 10) {
-                            System.err.println("err2");
+//                            System.err.println("err2");
                             break;
                         }
                     }
@@ -191,7 +202,7 @@ public class Main extends Application {
                     while(!addToken(width/20 + r.nextInt(width-width/10), height/10 + r.nextInt(height/20), 2))
                     {
                         if(cnt++ > 10) {
-                            System.err.println("err3");
+//                            System.err.println("err3");
                             break;
                         }
                     }
@@ -202,7 +213,7 @@ public class Main extends Application {
                     while(!addToken(width/20 + r.nextInt(width-width/10), height/10 + r.nextInt(height/20), 3))
                     {
                         if(cnt++ > 10){
-                            System.err.println("err4");
+//                            System.err.println("err4");
                             break;
                         }
                     }
@@ -214,7 +225,7 @@ public class Main extends Application {
                     while(!addToken(width/20 + r.nextInt(width-width/10), height/10 + r.nextInt(height/20), 4))
                     {
                         if(cnt++ > 10) {
-                            System.err.println("err5");
+//                            System.err.println("err5");
                             break;
                         }
                     }
@@ -222,7 +233,7 @@ public class Main extends Application {
                 }
             }
         }
-        System.out.println("check" + debug--);
+//        System.out.println("check" + debug--);
     }
 
     private boolean addBall(double x, double y, int strength) {
@@ -279,7 +290,7 @@ public class Main extends Application {
         if(direction == 1)
         {
             //move towards Right
-            P.getSnake().moveRight(5);
+            P.getSnake().moveRight(sensitivity*5);
             for(Wall wall : walls)
             {
                 if(P.getSnake().checkIntersection(wall))
@@ -294,7 +305,7 @@ public class Main extends Application {
         }
         else
         {
-            P.getSnake().moveLeft(5);
+            P.getSnake().moveLeft(sensitivity*5);
             for(Wall wall : walls)
             {
                 if(P.getSnake().checkIntersection(wall))
@@ -321,13 +332,19 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         mainframe.setPrefSize(width, height);
         last = 0;
-        AnimationTimer animationTimer = new AnimationTimer() {
+        animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                refreshGUI();
+                try {
+                    refreshGUI();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         };
         animationTimer.start();
+        isRunning = true;
+//        animationTimer.stop();
         HBox hBox = new HBox();
         hBox.setPrefHeight(height/20);
         hBox.setPrefWidth(width);
@@ -339,10 +356,23 @@ public class Main extends Application {
         Scene scene = new Scene(mainframe);
         scene.setOnKeyPressed(e ->
         {
-            if(e.getCode() == KeyCode.RIGHT)
+            if(e.getCode() == KeyCode.RIGHT && isRunning)
                 move(1);
-            if(e.getCode() == KeyCode.LEFT)
+            if(e.getCode() == KeyCode.LEFT && isRunning)
                 move(-1);
+            if(e.getCode() == KeyCode.SPACE)
+            {
+                if(isRunning)
+                {
+                    animationTimer.stop();
+                    isRunning = false;
+                }
+                else
+                {
+                    animationTimer.start();
+                    isRunning = true;
+                }
+            }
         });
         primaryStage.setOnCloseRequest(e -> System.exit(0));
         primaryStage.setScene(scene);
@@ -350,12 +380,14 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void refreshGUI() {
+    private void refreshGUI() throws InterruptedException {
 //        System.out.println(walls.size() + " " + blocks.size() + " " + tokens.size() + " " + balls.size());
         Random r = new Random(System.currentTimeMillis());
-        double refreshRate = assignGameSpeed();
-        System.err.println(refreshRate + " " + 60/refreshRate);
+        refreshRate = Math.max(refreshRate, assignGameSpeed());
+//        System.err.println(refreshRate + " " + 60/refreshRate);
         t += 0.04*refreshRate;
+        P.getSnake().reducePowerups();
+//        System.out.println("dayum");
         if(t > 3)
         {
             generateAndRefresh();
@@ -369,6 +401,50 @@ public class Main extends Application {
                 MediaPlayer player = new MediaPlayer(sound);
                 player.play();
                 mainframe.getChildren().remove(tokens.get(i));
+                Circle expl = new Circle(P.getSnake().getXc() - 10, P.getSnake().getYc(), 20);
+                if(tokens.get(i).getTokenKind() == 1) {
+                    //Coin
+                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("action1.png"))));
+                }
+                if(tokens.get(i).getTokenKind() == 2) {
+                    //Magnet
+                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("action2.png"))));
+                    for(int j = 0; j < tokens.size(); j++)
+                    {
+                        if(tokens.get(j).getTokenKind() == 1)
+                        {
+                            TranslateTransition tr = new TranslateTransition(Duration.millis(1000), tokens.get(j));
+//                            tr.setToX(P.getSnake().getXc()-20);
+//                            tr.setToY(P.getSnake().getYc());
+                            tr.setToX(250);
+                            tr.setToY(50);
+                            System.out.println(P.getSnake().getXc() + " " + P.getSnake().getYc());
+                            tr.play();
+                            Token t = tokens.get(j);
+                            tr.setOnFinished(e -> {
+                                mainframe.getChildren().remove(t);
+                            });
+                        }
+                    }
+                }
+                if(tokens.get(i).getTokenKind() == 3) {
+                    //Brickbuster
+                    P.getSnake().givePowerup(3, System.currentTimeMillis());
+                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("action3.png"))));
+                }
+                if(tokens.get(i).getTokenKind() == 4) {
+                    //Shield
+                    P.getSnake().givePowerup(4, System.currentTimeMillis());
+                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("action4.png"))));
+                }
+                mainframe.getChildren().add(expl);
+                ScaleTransition tr = new ScaleTransition(Duration.millis(100), expl);
+                tr.setToX(5);
+                tr.setToY(5);
+                tr.setOnFinished(e -> {
+                    mainframe.getChildren().remove(expl);
+                });
+                tr.play();
                 to_be_removedT.add(tokens.get(i));
             }
         });
@@ -456,20 +532,36 @@ public class Main extends Application {
         }
     }
 
-    private void BlockIntersection() {
+    private void BlockIntersection() throws InterruptedException {
         for(Block block : blocks)
         {
             if(P.getSnake().checkIntersection(block))
             {
                 int cnt = block.getStrength();
-                for(int i = 0; i < Math.min(block.getStrength(), P.getSnake().getSz()); i++)
+                if(P.getSnake().havePowerup(3))
                 {
-                    cnt--;
-                    block.decreaseStrength(1);
-                    P.getSnake().removeSnakeBalls(1);
+                    cnt = 0;
+                }
+                else {
+                    for (int i = 0; i < Math.min(block.getStrength(), P.getSnake().getSz()); i++) {
+                        cnt--;
+                        pushUp();
+                        block.decreaseStrength(1);
+                        P.getSnake().removeSnakeBalls(1);
+                    }
                 }
                 if(cnt == 0)
                 {
+                    Circle expl = new Circle(P.getSnake().getXc(), P.getSnake().getYc() - 20, 10);
+                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png"))));
+                    mainframe.getChildren().add(expl);
+                    ScaleTransition explTr = new ScaleTransition(Duration.millis(100), expl);
+                    explTr.setToX(5);
+                    explTr.setToY(5);
+                    explTr.setOnFinished(e -> {
+                        mainframe.getChildren().remove(expl);
+                    });
+                    explTr.play();
                     mainframe.getChildren().removeAll(block.getLabel(), block);
                     blocks.remove(block);
                     break;
@@ -479,6 +571,62 @@ public class Main extends Application {
                     System.exit(0);
                 }
             }
+        }
+    }
+
+    private void pushUp() {
+        ArrayList<Wall> to_be_removedW = new ArrayList<Wall>();
+        IntStream.range(0, walls.size()).forEachOrdered(i -> {
+            walls.get(i).setTranslateY(walls.get(i).getTranslateY() - 6*refreshRate/2);
+            if (walls.get(i).getTranslateY() > 800) {
+                mainframe.getChildren().remove(walls.get(i));
+                to_be_removedW.add(walls.get(i));
+            }
+        });
+        for(Wall aTo_be_removedW : to_be_removedW)
+        {
+            walls.remove(aTo_be_removedW);
+        }
+        ArrayList<Token> to_be_removedT = new ArrayList<Token>();
+        to_be_removedT.clear();
+        IntStream.range(0, tokens.size()).forEachOrdered(i -> {
+//            System.out.println(i);
+//            tokens.get(i).setTranslateY(tokens.get(i).getTranslateY() + refreshRate/2);
+            tokens.get(i).pull(-6*refreshRate/2);
+            if (tokens.get(i).getTranslateY() > 800) {
+                mainframe.getChildren().remove(tokens.get(i));
+                to_be_removedT.add(tokens.get(i));
+            }
+        });
+        for (Token aTo_be_removedT : to_be_removedT) {
+            tokens.remove(aTo_be_removedT);
+        }
+        ArrayList<Ball> to_be_removed = new ArrayList<Ball>();
+        IntStream.range(0, balls.size()).forEachOrdered(i -> {
+            balls.get(i).setTranslateY(balls.get(i).getTranslateY() - 6*refreshRate/2);
+            balls.get(i).getLabel().setTranslateY(balls.get(i).getTranslateY() - 6*refreshRate/2);
+            if(balls.get(i).getTranslateY() > 800)
+            {
+                mainframe.getChildren().remove(balls.get(i));
+                to_be_removed.add(balls.get(i));
+            }
+        });
+        for (Ball aTo_be_removed : to_be_removed) {
+            balls.remove(aTo_be_removed);
+        }
+        ArrayList<Block> to_be_removedB = new ArrayList<Block>();
+        IntStream.range(0, blocks.size()).forEachOrdered(i -> {
+            blocks.get(i).setTranslateY(blocks.get(i).getTranslateY() - 6*refreshRate/2);
+            blocks.get(i).getLabel().setTranslateY(blocks.get(i).getLabel().getTranslateY() - 6*refreshRate/2);
+            if(blocks.get(i).getTranslateY() > 800)
+            {
+                mainframe.getChildren().remove(blocks.get(i));
+                to_be_removedB.add(blocks.get(i));
+            }
+        });
+        for (Block aTo_be_removedB : to_be_removedB)
+        {
+            blocks.remove(aTo_be_removedB);
         }
     }
 

@@ -15,8 +15,48 @@ public class Snake {
     private double yc;
     private ArrayList<SnakeBall> balls = new ArrayList<SnakeBall>();
     private SnakeBall head;
+    private boolean[] powers;
+    private long[] powertime;
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public SnakeBall getHead() {
+        return head;
+    }
+
+    public void setHead(SnakeBall head) {
+        this.head = head;
+    }
+
+    public boolean[] getPowers() {
+        return powers;
+    }
+
+    public void setPowers(boolean[] powers) {
+        this.powers = powers;
+    }
+
+    public long[] getPowertime() {
+        return powertime;
+    }
+
+    public void setPowertime(long[] powertime) {
+        this.powertime = powertime;
+    }
 
     Snake(int sz, Pane mainframe, double xc, double yc) {
+        this.powers = new boolean[5];
+        this.powertime = new long[5];
         this.sz = sz;
         this.mainframe = mainframe;
         this.xc = xc;
@@ -113,5 +153,28 @@ public class Snake {
 
     public void moveTo(double v) {
         balls.forEach(s -> s.moveTo(v));
+    }
+
+    public void givePowerup(int k, long t) {
+        powers[k] = true;
+        powertime[k] = t;
+    }
+
+    public void reducePowerups() {
+        for(int i = 1; i < 5; i++)
+        {
+            if(powers[i])
+            {
+                if(System.currentTimeMillis() > powertime[i] + 10000)
+                {
+                    System.out.println(System.currentTimeMillis() + " " + powertime[i] + " " + i);
+                    powers[i] = false;
+                }
+            }
+        }
+    }
+
+    public boolean havePowerup(int i) {
+        return powers[i];
     }
 }

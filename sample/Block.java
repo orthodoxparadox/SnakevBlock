@@ -68,5 +68,6 @@ public class Block extends Rectangle {
     public void decreaseStrength(int i) {
         strength -= i;
         this.label.setText(Integer.toString(strength));
+        System.out.println("WHY");
     }
 }
