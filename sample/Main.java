@@ -288,7 +288,7 @@ public class Main extends Application implements Serializable {
     }
 
     private double assignGameSpeed() {
-        double base_speed = 10;
+        double base_speed = 3;
         int snakeLength = P.getSnake().getSz();
         double intended_speed = Math.sqrt(snakeLength) / 2;
         intended_speed *= 2;
@@ -313,6 +313,7 @@ public class Main extends Application implements Serializable {
         gameMenu.getItems().add("Restart");
         gameMenu.getItems().add("Exit");
         gameMenu.setPromptText("Menu");
+        gameMenu.setPrefWidth(10);
         gameMenu.setOnAction(e -> {
             if(gameMenu.getValue().equals("Pause")) {
                 gameMenu.getItems().set(0, "Resume");
