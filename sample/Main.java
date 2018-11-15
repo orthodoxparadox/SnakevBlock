@@ -8,6 +8,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -20,6 +21,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -37,6 +39,7 @@ public class Main extends Application {
     ArrayList<Token> tokens = new ArrayList<Token>();
     ArrayList<Block> blocks = new ArrayList<Block>();
     Player P = new Player(mainframe);
+    private ComboBox<String> gameMenu;
     private double last = 0;
     private double t;
     private AnimationTimer animationTimer;
@@ -304,12 +307,28 @@ public class Main extends Application {
         hBox.setPrefHeight(height / 20);
         hBox.setPrefWidth(width);
         hBox.setStyle("-fx-background-color: #000000");
-        hBox.setSpacing(25);
+        hBox.setSpacing(10);
         hBox.setPadding(new Insets(10, 10, 10, 10));
         hBox.getChildren().add(new Label("Score: "));
         hBox.getChildren().add(P.getScoreLabel());
         hBox.getChildren().add(new Label("Size: "));
         hBox.getChildren().add(P.getSnake().getSizeLabel());
+        gameMenu = new ComboBox<String>();
+        gameMenu.getItems().add("Pause");
+        gameMenu.getItems().add("Restart");
+        gameMenu.getItems().add("Exit");
+        gameMenu.setPromptText("Menu");
+        gameMenu.setOnAction(e -> {
+            if(gameMenu.getValue().equals("Pause")) {
+                gameMenu.getItems().set(0, "Resume");
+                animationTimer.stop();
+            }
+            else if(gameMenu.getValue().equals("Resume")) {
+                gameMenu.getItems().set(0, "Pause");
+                animationTimer.start();
+            }
+        });
+        hBox.getChildren().add(gameMenu);
         hBox.getChildren().add(new Label("Coins: "));
         hBox.getChildren().add(P.getCoinsLabel());
         mainframe.getChildren().add(hBox);
