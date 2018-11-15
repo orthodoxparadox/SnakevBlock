@@ -537,15 +537,33 @@ public class Main extends Application {
         {
             if(P.getSnake().checkIntersection(block))
             {
+//                if(P.getSnake().getYc() < )
+                System.err.println(P.getSnake().getYc() + " " + block.getTranslateY());
+                if(block.getTranslateY() > 185)
+                {
+                    System.out.println(P.getSnake().getXc() + " " + block.getTranslateX() + " " + block.getXc() + "LOL");
+                    if(P.getSnake().getXc() > block.getXc())
+                    {
+                        P.getSnake().moveTo(block.getXc() + 70);
+                    }
+                    else
+                    {
+                        P.getSnake().moveTo(block.getXc() - 10);
+                    }
+                    continue;
+                }
                 int cnt = block.getStrength();
+                int initial_strength = block.getStrength();
                 if(P.getSnake().havePowerup(3))
                 {
                     cnt = 0;
                 }
                 else {
                     for (int i = 0; i < Math.min(block.getStrength(), P.getSnake().getSz()); i++) {
+                        if(!P.getSnake().checkIntersection(block)) break;
                         cnt--;
-                        pushUp();
+                        if(initial_strength > 5)
+                            pushUp();
                         block.decreaseStrength(1);
                         P.getSnake().removeSnakeBalls(1);
                     }

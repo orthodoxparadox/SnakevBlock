@@ -23,6 +23,8 @@ public class Block extends Rectangle {
     public Block(double xc, double yc, int strength)
     {
         super(xc, yc, 60, 60);
+        this.xc = xc;
+        this.yc = yc;
         this.setArcHeight(20.0);
         this.setArcWidth(20.0);
         this.strength = strength;
