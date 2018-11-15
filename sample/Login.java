@@ -15,6 +15,7 @@ public class Login extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent mainframe = FXMLLoader.load(getClass().getResource("Login.fxml"));
         Scene scene = new Scene(mainframe, Color.BLACK);
+        scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

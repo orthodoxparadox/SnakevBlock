@@ -7,11 +7,11 @@
 <AnchorPane fx:id="mainframe" prefHeight="500.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LeaderboardPageController">
    <children>
       <Button fx:id="backbutton" layoutX="131.0" layoutY="399.0" mnemonicParsing="false" onAction="#goBackToMainPage" text="Back" />
-      <Label layoutX="180.0" layoutY="250.0" text="Score" />
-      <Label layoutX="65.0" layoutY="250.0" text="Name" />
-      <Label layoutX="180.0" layoutY="162.0" text="Score" />
-      <Label layoutX="65.0" layoutY="162.0" text="Name" />
-      <Label layoutX="180.0" layoutY="85.0" text="Score" />
-      <Label layoutX="65.0" layoutY="85.0" text="Name" />
+      <Label layoutX="180.0" layoutY="351.0" text="Score" />
+      <Label layoutX="65.0" layoutY="351.0" text="Name" />
+      <Label layoutX="180.0" layoutY="308.0" text="Score" />
+      <Label layoutX="65.0" layoutY="308.0" text="Name" />
+      <Label layoutX="180.0" layoutY="268.0" text="Score" />
+      <Label layoutX="65.0" layoutY="268.0" text="Name" />
    </children>
 </AnchorPane>

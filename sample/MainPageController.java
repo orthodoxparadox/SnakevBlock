@@ -21,7 +21,9 @@ public class MainPageController {
 
     public void startGame(ActionEvent actionEvent) {
         try {
-            ((Stage)mainframe.getScene().getWindow()).setScene(new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("PlayPage.fxml"))));
+            Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("PlayPage.fxml")));
+            sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+            ((Stage)mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,7 +31,9 @@ public class MainPageController {
 
     public void goToLeaderboard(ActionEvent actionEvent) {
         try {
-            ((Stage)mainframe.getScene().getWindow()).setScene(new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("LeaderboardPage.fxml"))));
+            Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("LeaderboardPage.fxml")));
+            sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+            ((Stage)mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {
             e.printStackTrace();
         }

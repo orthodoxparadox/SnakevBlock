@@ -27,7 +27,9 @@ public class LoginController {
 
     public void make_account(ActionEvent actionEvent) {
         try {
-            ((Stage) mainframe.getScene().getWindow()).setScene(new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("Make_Account.fxml"))));
+            Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("Make_Account.fxml")));
+            sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+            ((Stage) mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,7 +38,9 @@ public class LoginController {
     public void login(ActionEvent actionEvent) {
         input_username = username.getText();
         try {
-            ((Stage) mainframe.getScene().getWindow()).setScene(new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("Main_Page.fxml"))));
+            Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("Main_Page.fxml")));
+            sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+            ((Stage) mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {
             e.printStackTrace();
         }
