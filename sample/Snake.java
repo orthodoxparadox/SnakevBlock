@@ -1,7 +1,9 @@
 package sample;
 
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
@@ -10,6 +12,7 @@ public class Snake {
     private final int height = Constants.height;
     private final int rows = Constants.rows;
     private int sz;
+    private Label sizeLabel;
     private Pane mainframe;
     private double xc;
     private double yc;
@@ -54,9 +57,15 @@ public class Snake {
         this.powertime = powertime;
     }
 
+    public Label getSizeLabel() {
+        return sizeLabel;
+    }
+
     Snake(int sz, Pane mainframe, double xc, double yc) {
         this.powers = new boolean[5];
         this.powertime = new long[5];
+        this.sizeLabel = new Label(Integer.toString(4));
+        this.sizeLabel.setTextFill(Color.WHITE);
         this.sz = sz;
         this.mainframe = mainframe;
         this.xc = xc;
@@ -136,6 +145,7 @@ public class Snake {
             mainframe.getChildren().add(s);
             balls.add(s);
             sz++;
+            this.sizeLabel.setText(Integer.toString(sz));
         }
         head = balls.get(0);
     }
@@ -146,6 +156,7 @@ public class Snake {
         {
             mainframe.getChildren().removeAll(balls.get(sz-1));
             balls.remove(sz-1); sz--;
+            this.sizeLabel.setText(Integer.toString(sz));
             if(sz == 0) System.exit(0);
         }
         head = balls.get(0);
