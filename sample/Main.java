@@ -367,11 +367,11 @@ public class Main extends Application {
                     expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("action2.png"))));
                     for (int j = 0; j < tokens.size(); j++) {
                         if (tokens.get(j).getTokenKind() == 1) {
-                            TranslateTransition tr = new TranslateTransition(Duration.millis(1000), tokens.get(j));
+                            TranslateTransition tr = new TranslateTransition(Duration.millis(1500), tokens.get(j));
 //                            tr.setToX(P.getSnake().getXc()-20);
 //                            tr.setToY(P.getSnake().getYc());
-                            tr.setToX(250);
-                            tr.setToY(50);
+                            tr.setToX(100);
+                            tr.setToY(-20);
                             System.out.println(P.getSnake().getXc() + " " + P.getSnake().getYc());
                             tr.play();
                             Token t = tokens.get(j);
@@ -454,6 +454,16 @@ public class Main extends Application {
         for (Block aTo_be_removedB : to_be_removedB) {
             blocks.remove(aTo_be_removedB);
         }
+        if(P.getSnake().havePowerup(3))
+        {
+            for(Block b : blocks)
+            {
+                mainframe.getChildren().removeAll(b, b.getLabel());
+                P.increaseScore(b.getStrength());
+            }
+            blocks.clear();
+            P.getSnake().endPowerup(3);
+        }
         BlockIntersection();
         WallIntersection();
         BallIntersection();
@@ -497,7 +507,7 @@ public class Main extends Application {
                 }
                 int cnt = block.getStrength();
                 int initial_strength = block.getStrength();
-                if (P.getSnake().havePowerup(3)) {
+                if (P.getSnake().havePowerup(4)) {
                     cnt = 0;
                     P.increaseScore(block.getStrength());
                 } else {

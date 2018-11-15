@@ -184,6 +184,11 @@ public class Snake {
             }
         }
     }
+    public void endPowerup(int k)
+    {
+        powers[k] = false;
+        powertime[k] = 0;
+    }
 
     public boolean havePowerup(int i) {
         return powers[i];
