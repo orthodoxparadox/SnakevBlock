@@ -21,13 +21,13 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-public class Main extends Application {
+public class Main extends Application implements Serializable {
     private static Pane mainframe = new Pane();
     private static int debug = 0;
     private final int width = Constants.width;
@@ -50,6 +50,15 @@ public class Main extends Application {
         launch(args);
     }
 
+    public void serialize()
+    {
+
+    }
+    public static Main deserialize()
+    {
+
+        return null;
+    }
     public void makeRowOfBlocks(ArrayList<Integer> pos, ArrayList<Integer> strength) {
         int cnt = pos.size();
         for (int i = 0; i < cnt; i++) {
@@ -279,7 +288,7 @@ public class Main extends Application {
     }
 
     private double assignGameSpeed() {
-        double base_speed = 3;
+        double base_speed = 10;
         int snakeLength = P.getSnake().getSz();
         double intended_speed = Math.sqrt(snakeLength) / 2;
         intended_speed *= 2;
@@ -289,20 +298,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         mainframe.setPrefSize(width, height);
-        last = 0;
-        animationTimer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                try {
-                    refreshGUI();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        animationTimer.start();
-        isRunning = true;
-//        animationTimer.stop();
         HBox hBox = new HBox();
         hBox.setPrefHeight(height / 20);
         hBox.setPrefWidth(width);
@@ -333,6 +328,18 @@ public class Main extends Application {
         hBox.getChildren().add(P.getCoinsLabel());
         mainframe.getChildren().add(hBox);
         mainframe.setStyle("-fx-background-color: #191970");
+        animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                try {
+                    refreshGUI();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        animationTimer.start();
+        isRunning = true;
         Scene scene = new Scene(mainframe);
         scene.setOnKeyPressed(e ->
         {
