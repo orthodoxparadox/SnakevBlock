@@ -39,7 +39,7 @@ public class Block extends Rectangle implements Serializable {
 
     public void store()
     {
-        xc = getTranslateX();
+//        xc = getTranslateX();
         yc = getTranslateY();
     }
     public int getStrength() {
@@ -81,8 +81,11 @@ public class Block extends Rectangle implements Serializable {
     }
 
     public void restore() {
+        System.out.println(xc + " " + yc);
         setTranslateX(xc);
         setTranslateY(yc);
+        setHeight(60);
+        setWidth(60);
         setArcHeight(20);
         setArcWidth(20);
         label = new Label(Integer.toString(strength));
@@ -91,6 +94,6 @@ public class Block extends Rectangle implements Serializable {
         this.label.setLayoutX(xc  + 25);
         this.label.setLayoutY(yc  + 20);
         this.label.setAlignment(Pos.CENTER);
-        this.setFill(colors.get(ThreadLocalRandom.current().nextInt(5)));
+        setFill(colors.get(ThreadLocalRandom.current().nextInt(5)));
     }
 }

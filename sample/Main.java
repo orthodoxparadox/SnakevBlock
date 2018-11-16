@@ -28,7 +28,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public class Main extends Application implements Serializable {
-    private transient static Pane mainframe = new Pane();
+    private transient Pane mainframe;
     private static int debug = 0;
     private final int width = Constants.width;
     private final int height = Constants.height;
@@ -38,7 +38,7 @@ public class Main extends Application implements Serializable {
     ArrayList<Ball> balls = new ArrayList<Ball>();
     ArrayList<Token> tokens = new ArrayList<Token>();
     ArrayList<Block> blocks = new ArrayList<Block>();
-    Player P = new Player(mainframe);
+    Player P;
     private transient ComboBox<String> gameMenu;
     private double t;
     private transient AnimationTimer animationTimer;
@@ -432,7 +432,9 @@ public class Main extends Application implements Serializable {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        mainframe = new Pane();
         mainframe.setPrefSize(width, height);
+        P = new Player(mainframe);
         HBox hBox = new HBox();
         hBox.setPrefHeight(height / 20);
         hBox.setPrefWidth(width);
@@ -499,6 +501,7 @@ public class Main extends Application implements Serializable {
         Scene scene = new Scene(mainframe);
         scene.setOnKeyPressed(e ->
         {
+            System.out.println(e.getCode());
             if (e.getCode() == KeyCode.RIGHT && isRunning)
                 move(1);
             if (e.getCode() == KeyCode.LEFT && isRunning)
@@ -513,7 +516,9 @@ public class Main extends Application implements Serializable {
                 }
             }
         });
-        primaryStage.setOnCloseRequest(e -> System.exit(0));
+        primaryStage.setOnCloseRequest(e -> {
+            System.exit(0);
+        });
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -679,7 +684,7 @@ public class Main extends Application implements Serializable {
 //                if(P.getSnake().getYc() < )
                 System.err.println(P.getSnake().getYc() + " " + block.getTranslateY());
                 if (block.getTranslateY() > 185) {
-                    System.out.println(P.getSnake().getXc() + " " + block.getTranslateX() + " " + block.getXc() + "LOL");
+//                    System.out.println(P.getSnake().getXc() + " " + block.getTranslateX() + " " + block.getXc() + "LOL");
                     if (P.getSnake().getXc() > block.getXc()) {
                         P.getSnake().moveTo(block.getXc() + 70);
                     } else {
@@ -719,7 +724,7 @@ public class Main extends Application implements Serializable {
                     break;
                 }
                 if (P.getSnake().getSz() <= 0) {
-                    System.exit(0);
+                    return;
                 }
             }
         }

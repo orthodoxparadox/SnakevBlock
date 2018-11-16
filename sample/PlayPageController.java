@@ -33,7 +33,9 @@ public class PlayPageController {
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
         runningGame = new Main();
         try {
-            runningGame.start(new Stage());
+            Stage stage = new Stage();
+            runningGame.start(stage);
+            System.out.println("checker");
             runningGame.renewGame();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,10 +1,14 @@
 package sample;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -164,13 +168,25 @@ public class Snake implements Serializable {
             mainframe.getChildren().removeAll(balls.get(sz-1));
             balls.remove(sz-1); sz--;
             this.sizeLabel.setText(Integer.toString(sz));
-            if(sz == 0) System.exit(0);
+            if(sz == 0)
+            {
+                Scene sc = null;
+                try {
+                    sc = new Scene(FXMLLoader.load(getClass().getResource("ScoreDisplay.fxml")));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+                ((Stage) mainframe.getScene().getWindow()).setScene(sc);
+                return;
+            }
         }
         head = balls.get(0);
     }
 
     public void moveTo(double v) {
         balls.forEach(s -> s.moveTo(v));
+        head = balls.get(0);
     }
 
     public void givePowerup(int k, long t) {
