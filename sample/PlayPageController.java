@@ -34,6 +34,7 @@ public class PlayPageController {
         runningGame = new Main();
         try {
             runningGame.start(new Stage());
+            runningGame.renewGame();
         } catch (Exception e) {
             e.printStackTrace();
         }

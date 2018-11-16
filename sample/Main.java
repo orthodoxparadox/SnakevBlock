@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -21,14 +22,13 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.IntStream;
 
 public class Main extends Application implements Serializable {
-    private static Pane mainframe = new Pane();
+    private transient static Pane mainframe = new Pane();
     private static int debug = 0;
     private final int width = Constants.width;
     private final int height = Constants.height;
@@ -39,10 +39,9 @@ public class Main extends Application implements Serializable {
     ArrayList<Token> tokens = new ArrayList<Token>();
     ArrayList<Block> blocks = new ArrayList<Block>();
     Player P = new Player(mainframe);
-    private ComboBox<String> gameMenu;
-    private double last = 0;
+    private transient ComboBox<String> gameMenu;
     private double t;
-    private AnimationTimer animationTimer;
+    private transient AnimationTimer animationTimer;
     private boolean isRunning;
     private double refreshRate = 2.5;
 
@@ -52,13 +51,151 @@ public class Main extends Application implements Serializable {
 
     public void serialize()
     {
-
+        ObjectOutputStream writer = null;
+        try
+        {
+            P.getSnake().save();
+            for(int i = 0; i < blocks.size(); i++)
+            {
+                blocks.get(i).store();
+            }
+            for(int i = 0; i < tokens.size(); i++)
+            {
+                tokens.get(i).store();
+            }
+            for(int i = 0; i < walls.size(); i++)
+            {
+                walls.get(i).store();
+            }
+            for(int i = 0; i < balls.size(); i++)
+            {
+                balls.get(i).store();
+            }
+            writer = new ObjectOutputStream(new FileOutputStream("database.txt"));
+            writer.writeObject(this);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     public static Main deserialize()
     {
+        ObjectInputStream reader = null;
+        Main get_Game = null;
+        try
+        {
+            reader = new ObjectInputStream(new FileInputStream("database.txt"));
+            get_Game = (Main) reader.readObject();
+            get_Game.mainframe = new Pane();
+            get_Game.P.restore();
+            get_Game.P.getSnake().ressurect(get_Game.mainframe);
+            for(int i = 0; i < get_Game.blocks.size(); i++)
+            {
+                get_Game.blocks.get(i).restore();
+                get_Game.mainframe.getChildren().addAll(get_Game.blocks.get(i), get_Game.blocks.get(i).getLabel());
+            }
+            for(int i = 0; i < get_Game.tokens.size(); i++)
+            {
+                get_Game.tokens.get(i).restore();
+                get_Game.mainframe.getChildren().add(get_Game.tokens.get(i));
+            }
+            for(int i = 0; i < get_Game.walls.size(); i++)
+            {
+                get_Game.walls.get(i).restore();
+                get_Game.mainframe.getChildren().add(get_Game.walls.get(i));
+            }
+            for(int i = 0; i < get_Game.balls.size(); i++)
+            {
+                get_Game.balls.get(i).restore();
+                get_Game.mainframe.getChildren().addAll(get_Game.balls.get(i), get_Game.balls.get(i).getLabel());
+            }
 
-        return null;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return get_Game;
     }
+
+    public void renewGame()
+    {
+        mainframe.getChildren().clear();
+        P.setSnake(new Snake(4, mainframe, width/2, height/2));
+        P.setScore(0);
+        tokens.clear();
+        blocks.clear();
+        walls.clear();
+        balls.clear();
+        gameMenu = new ComboBox<String>();
+        HBox hBox = new HBox();
+        hBox.setPrefHeight(height / 20);
+        hBox.setPrefWidth(width);
+        hBox.setStyle("-fx-background-color: #000000");
+        hBox.setSpacing(10);
+        hBox.setPadding(new Insets(10, 10, 10, 10));
+        hBox.getChildren().add(new Label("Score: "));
+        hBox.getChildren().add(P.getScoreLabel());
+        hBox.getChildren().add(new Label("Size: "));
+        hBox.getChildren().add(P.getSnake().getSizeLabel());
+        gameMenu.getItems().add("Pause");
+        gameMenu.getItems().add("Restart");
+        gameMenu.getItems().add("Exit");
+        gameMenu.setPromptText("Menu");
+        gameMenu.setPrefWidth(10);
+        gameMenu.setOnAction(e -> {
+            if(gameMenu.getValue().equals("Pause")) {
+                gameMenu.getItems().set(0, "Resume");
+                animationTimer.stop();
+            }
+            else if(gameMenu.getValue().equals("Resume")) {
+                gameMenu.getItems().set(0, "Pause");
+                animationTimer.start();
+            }
+            else if(gameMenu.getValue().equals("Exit"))
+            {
+                animationTimer.stop();
+                isRunning = false;
+                this.serialize();
+                Scene sc = null;
+                try {
+                    sc = new Scene(FXMLLoader.load(getClass().getResource("PlayPage.fxml")));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+                ((Stage) mainframe.getScene().getWindow()).setScene(sc);
+            }
+            else if(gameMenu.getValue().equals("Restart"))
+            {
+                renewGame();
+                animationTimer.start();
+            }
+        });
+        hBox.getChildren().add(gameMenu);
+        hBox.getChildren().add(new Label("Coins: "));
+        hBox.getChildren().add(P.getCoinsLabel());
+        mainframe.getChildren().add(hBox);
+    }
+
+
     public void makeRowOfBlocks(ArrayList<Integer> pos, ArrayList<Integer> strength) {
         int cnt = pos.size();
         for (int i = 0; i < cnt; i++) {
@@ -136,13 +273,11 @@ public class Main extends Application implements Serializable {
                 strength.remove(strength.size() - 1);
             }
             makeRowOfBlocks(pos, strength);
-            last -= sumOfStrengths * 0.3;
         }
         Random r = new Random(System.currentTimeMillis());
         double model = Math.random();
 //        System.out.println(model);
         if (model >= 0.96) {
-            last = 0;
 //            System.err.println("here");
             int wallCount = r.nextInt(3);
             for (int i = 0; i < wallCount; i++) {
@@ -323,6 +458,25 @@ public class Main extends Application implements Serializable {
                 gameMenu.getItems().set(0, "Pause");
                 animationTimer.start();
             }
+            else if(gameMenu.getValue().equals("Exit"))
+            {
+                animationTimer.stop();
+                isRunning = false;
+                this.serialize();
+                Scene sc = null;
+                try {
+                    sc = new Scene(FXMLLoader.load(getClass().getResource("PlayPage.fxml")));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+                ((Stage) mainframe.getScene().getWindow()).setScene(sc);
+            }
+            else if(gameMenu.getValue().equals("Restart"))
+            {
+                renewGame();
+                animationTimer.start();
+            }
         });
         hBox.getChildren().add(gameMenu);
         hBox.getChildren().add(new Label("Coins: "));
@@ -341,6 +495,7 @@ public class Main extends Application implements Serializable {
         };
         animationTimer.start();
         isRunning = true;
+
         Scene scene = new Scene(mainframe);
         scene.setOnKeyPressed(e ->
         {
@@ -348,7 +503,7 @@ public class Main extends Application implements Serializable {
                 move(1);
             if (e.getCode() == KeyCode.LEFT && isRunning)
                 move(-1);
-            if (e.getCode() == KeyCode.SPACE) {
+            if (e.getCode() == KeyCode.ESCAPE) {
                 if (isRunning) {
                     animationTimer.stop();
                     isRunning = false;
@@ -462,7 +617,7 @@ public class Main extends Application implements Serializable {
             balls.get(i).setTranslateY(balls.get(i).getTranslateY() + refreshRate / 2);
             balls.get(i).getLabel().setTranslateY(balls.get(i).getTranslateY() + refreshRate / 2);
             if (balls.get(i).getTranslateY() > 800) {
-                mainframe.getChildren().remove(balls.get(i));
+                mainframe.getChildren().removeAll(balls.get(i), balls.get(i).getLabel());
                 to_be_removed.add(balls.get(i));
             }
         });
@@ -474,7 +629,7 @@ public class Main extends Application implements Serializable {
             blocks.get(i).setTranslateY(blocks.get(i).getTranslateY() + refreshRate / 2);
             blocks.get(i).getLabel().setTranslateY(blocks.get(i).getLabel().getTranslateY() + refreshRate / 2);
             if (blocks.get(i).getTranslateY() > 800) {
-                mainframe.getChildren().remove(blocks.get(i));
+                mainframe.getChildren().removeAll(blocks.get(i), blocks.get(i).getLabel());
                 to_be_removedB.add(blocks.get(i));
             }
         });

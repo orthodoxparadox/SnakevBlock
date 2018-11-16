@@ -3,7 +3,9 @@ package sample;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class SnakeBall extends Circle {
+import java.io.Serializable;
+
+public class SnakeBall extends Circle implements Serializable {
     private final int width = Constants.width;
     private final int height = Constants.height;
     private final int rows = Constants.rows;

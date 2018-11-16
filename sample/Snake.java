@@ -5,15 +5,16 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Snake {
+public class Snake implements Serializable {
     private final int width = Constants.width;
     private final int height = Constants.height;
     private final int rows = Constants.rows;
     private int sz;
-    private Label sizeLabel;
-    private Pane mainframe;
+    private transient Label sizeLabel;
+    private transient Pane mainframe;
     private double xc;
     private double yc;
     private ArrayList<SnakeBall> balls = new ArrayList<SnakeBall>();
@@ -150,6 +151,12 @@ public class Snake {
         head = balls.get(0);
     }
 
+    public void save()
+    {
+        xc = head.getTranslateX();
+        yc = head.getTranslateY();
+    }
+
     public void removeSnakeBalls(int strength)
     {
         for(int i = 0; i < strength; i++)
@@ -192,5 +199,20 @@ public class Snake {
 
     public boolean havePowerup(int i) {
         return powers[i];
+    }
+
+    public void ressurect(Pane mainframe) {
+        this.mainframe = mainframe;
+        balls.clear();
+        double cury = yc;
+        for(int i = 0; i < sz; i++)
+        {
+            SnakeBall B = new SnakeBall(xc, cury);
+            balls.add(B);
+            cury += 8;
+            mainframe.getChildren().add(B);
+        }
+        sizeLabel = new Label(Integer.toString(sz));
+        sizeLabel.setTextFill(Color.WHITE);
     }
 }

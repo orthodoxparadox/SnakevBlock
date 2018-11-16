@@ -4,16 +4,18 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private final int width = Constants.width;
     private final int height = Constants.height;
     private final int rows = Constants.rows;
-    Snake snake;
-    Pane mainframe;
+    private Snake snake;
+    private transient Pane mainframe;
     private int score;
-    private Label scoreLabel;
+    private transient Label scoreLabel;
     private int coins = 0;
-    private Label coinsLabel;
+    private transient Label coinsLabel;
 
     public Player(Pane mainframe) {
         this.score = 0;
@@ -74,5 +76,18 @@ public class Player {
     public void addCoin() {
         this.coins++;
         this.coinsLabel.setText(Integer.toString(this.coins));
+    }
+
+    public void setScore(int i) {
+        score = i;
+        scoreLabel.setText(Integer.toString(score));
+    }
+
+    public void restore()
+    {
+        scoreLabel = new Label(Integer.toString(score));
+        coinsLabel = new Label(Integer.toString(coins));
+        coinsLabel.setTextFill(Color.WHITE);
+        scoreLabel.setTextFill(Color.WHITE);
     }
 }

@@ -4,7 +4,9 @@ package sample;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Wall extends Rectangle {
+import java.io.Serializable;
+
+public class Wall extends Rectangle implements Serializable {
     private final int width = Constants.width;
     private final int height = Constants.height;
     private final int rows = Constants.rows;
@@ -20,5 +22,18 @@ public class Wall extends Rectangle {
         this.h = h;
         this.setTranslateX(xc);
         this.setTranslateY(yc);
+    }
+    public void store()
+    {
+        xc = getTranslateX();
+        yc = getTranslateY();
+    }
+
+    public void restore() {
+        setTranslateX(xc);
+        setTranslateY(yc);
+        setWidth(1);
+        setHeight(h);
+        setFill(Color.WHITE);
     }
 }
