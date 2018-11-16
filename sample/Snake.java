@@ -165,7 +165,7 @@ public class Snake implements Serializable {
     {
         for(int i = 0; i < strength; i++)
         {
-            mainframe.getChildren().removeAll(balls.get(sz-1));
+            mainframe.getChildren().remove(balls.get(sz-1));
             balls.remove(sz-1); sz--;
             this.sizeLabel.setText(Integer.toString(sz));
             if(sz == 0)

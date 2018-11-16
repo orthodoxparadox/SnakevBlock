@@ -501,7 +501,6 @@ public class Main extends Application implements Serializable {
         Scene scene = new Scene(mainframe);
         scene.setOnKeyPressed(e ->
         {
-            System.out.println(e.getCode());
             if (e.getCode() == KeyCode.RIGHT && isRunning)
                 move(1);
             if (e.getCode() == KeyCode.LEFT && isRunning)
@@ -681,8 +680,6 @@ public class Main extends Application implements Serializable {
     private void BlockIntersection() throws InterruptedException {
         for (Block block : blocks) {
             if (P.getSnake().checkIntersection(block)) {
-//                if(P.getSnake().getYc() < )
-                System.err.println(P.getSnake().getYc() + " " + block.getTranslateY());
                 if (block.getTranslateY() > 185) {
 //                    System.out.println(P.getSnake().getXc() + " " + block.getTranslateX() + " " + block.getXc() + "LOL");
                     if (P.getSnake().getXc() > block.getXc()) {
@@ -690,50 +687,104 @@ public class Main extends Application implements Serializable {
                     } else {
                         P.getSnake().moveTo(block.getXc() - 10);
                     }
-                    continue;
-                }
-                int cnt = block.getStrength();
-                int initial_strength = block.getStrength();
-                if (P.getSnake().havePowerup(4)) {
-                    cnt = 0;
-                    P.increaseScore(block.getStrength());
-                } else {
-                    for (int i = 0; i < Math.min(block.getStrength(), P.getSnake().getSz()); i++) {
-                        if (!P.getSnake().checkIntersection(block)) break;
-                        cnt--;
-                        if (initial_strength > 5)
-                            pushUp();
-                        block.decreaseStrength(1);
-                        P.increaseScore(1);
-                        P.getSnake().removeSnakeBalls(1);
-                    }
-                }
-                if (cnt == 0) {
-                    Circle expl = new Circle(P.getSnake().getXc(), P.getSnake().getYc() - 20, 10);
-                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png"))));
-                    mainframe.getChildren().add(expl);
-                    ScaleTransition explTr = new ScaleTransition(Duration.millis(100), expl);
-                    explTr.setToX(5);
-                    explTr.setToY(5);
-                    explTr.setOnFinished(e -> {
-                        mainframe.getChildren().remove(expl);
-                    });
-                    explTr.play();
-                    mainframe.getChildren().removeAll(block.getLabel(), block);
-                    blocks.remove(block);
-                    break;
-                }
-                if (P.getSnake().getSz() <= 0) {
                     return;
                 }
+                if(block.getStrength() == 1)
+                {
+                    P.increaseScore(1);
+                    P.getSnake().removeSnakeBalls(1);
+                    mainframe.getChildren().removeAll(block, block.getLabel());
+                    blocks.remove(block);
+//                    Circle expl = new Circle(P.getSnake().getXc(), P.getSnake().getYc() - 20, 10);
+//                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png"))));
+//                    mainframe.getChildren().add(expl);
+//                    ScaleTransition explTr = new ScaleTransition(Duration.millis(100), expl);
+//                    explTr.setToX(5);
+//                    explTr.setToY(5);
+//                    explTr.setOnFinished(e -> {
+//                        mainframe.getChildren().remove(expl);
+//                    });
+//                    explTr.play();
+                    return;
+                }
+                if(P.getSnake().havePowerup(4))
+                {
+                    P.increaseScore(block.getStrength());
+                    mainframe.getChildren().removeAll(block, block.getLabel());
+                    blocks.remove(block);
+//                    Circle expl = new Circle(P.getSnake().getXc(), P.getSnake().getYc() - 20, 10);
+//                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png"))));
+//                    mainframe.getChildren().add(expl);
+//                    ScaleTransition explTr = new ScaleTransition(Duration.millis(100), expl);
+//                    explTr.setToX(5);
+//                    explTr.setToY(5);
+//                    explTr.setOnFinished(e -> {
+//                        mainframe.getChildren().remove(expl);
+//                    });
+//                    explTr.play();
+                    return;
+                }
+                pushUp();
+                P.increaseScore(1);
+                block.decreaseStrength(1);
+                P.getSnake().removeSnakeBalls(1);
+                return;
+
+//                if(P.getSnake().getYc() < )
+//                System.err.println(P.getSnake().getYc() + " " + block.getTranslateY());
+//                if (block.getTranslateY() > 185) {
+////                    System.out.println(P.getSnake().getXc() + " " + block.getTranslateX() + " " + block.getXc() + "LOL");
+//                    if (P.getSnake().getXc() > block.getXc()) {
+//                        P.getSnake().moveTo(block.getXc() + 70);
+//                    } else {
+//                        P.getSnake().moveTo(block.getXc() - 10);
+//                    }
+//                    continue;
+//                }
+//                int cnt = block.getStrength();
+//                int initial_strength = block.getStrength();
+//                if (P.getSnake().havePowerup(4)) {
+//                    cnt = 0;
+//                    P.increaseScore(block.getStrength());
+//                } else {
+//                    int limit = Math.min(initial_strength, P.getSnake().getSz());
+//                    for (int i = 0; i < limit; i++) {
+//                        if (!P.getSnake().checkIntersection(block)) break;
+//                        cnt--;
+////                        if (initial_strength > 5)
+//                        pushUp();
+//                        block.decreaseStrength(1);
+//                        P.increaseScore(1);
+//                        P.getSnake().removeSnakeBalls(1);
+//                    }
+//                }
+//                if (cnt == 0) {
+//                    Circle expl = new Circle(P.getSnake().getXc(), P.getSnake().getYc() - 20, 10);
+//                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png"))));
+//                    mainframe.getChildren().add(expl);
+//                    ScaleTransition explTr = new ScaleTransition(Duration.millis(100), expl);
+//                    explTr.setToX(5);
+//                    explTr.setToY(5);
+//                    explTr.setOnFinished(e -> {
+//                        mainframe.getChildren().remove(expl);
+//                    });
+//                    explTr.play();
+//                    mainframe.getChildren().removeAll(block.getLabel(), block);
+//                    blocks.remove(block);
+//                    break;
+//                }
+//                if (P.getSnake().getSz() <= 0) {
+//                    return;
+//                }
             }
         }
     }
 
     private void pushUp() {
+        int fac = 4;
         ArrayList<Wall> to_be_removedW = new ArrayList<Wall>();
         IntStream.range(0, walls.size()).forEachOrdered(i -> {
-            walls.get(i).setTranslateY(walls.get(i).getTranslateY() - 6 * refreshRate / 2);
+            walls.get(i).setTranslateY(walls.get(i).getTranslateY() - fac * refreshRate / 2);
             if (walls.get(i).getTranslateY() > 800) {
                 mainframe.getChildren().remove(walls.get(i));
                 to_be_removedW.add(walls.get(i));
@@ -747,7 +798,7 @@ public class Main extends Application implements Serializable {
         IntStream.range(0, tokens.size()).forEachOrdered(i -> {
 //            System.out.println(i);
 //            tokens.get(i).setTranslateY(tokens.get(i).getTranslateY() + refreshRate/2);
-            tokens.get(i).pull(-6 * refreshRate / 2);
+            tokens.get(i).pull(- fac * refreshRate / 2);
             if (tokens.get(i).getTranslateY() > 800) {
                 mainframe.getChildren().remove(tokens.get(i));
                 to_be_removedT.add(tokens.get(i));
@@ -758,8 +809,8 @@ public class Main extends Application implements Serializable {
         }
         ArrayList<Ball> to_be_removed = new ArrayList<Ball>();
         IntStream.range(0, balls.size()).forEachOrdered(i -> {
-            balls.get(i).setTranslateY(balls.get(i).getTranslateY() - 6 * refreshRate / 2);
-            balls.get(i).getLabel().setTranslateY(balls.get(i).getTranslateY() - 6 * refreshRate / 2);
+            balls.get(i).setTranslateY(balls.get(i).getTranslateY() - fac * refreshRate / 2);
+            balls.get(i).getLabel().setTranslateY(balls.get(i).getTranslateY() - fac * refreshRate / 2);
             if (balls.get(i).getTranslateY() > 800) {
                 mainframe.getChildren().remove(balls.get(i));
                 to_be_removed.add(balls.get(i));
@@ -770,8 +821,8 @@ public class Main extends Application implements Serializable {
         }
         ArrayList<Block> to_be_removedB = new ArrayList<Block>();
         IntStream.range(0, blocks.size()).forEachOrdered(i -> {
-            blocks.get(i).setTranslateY(blocks.get(i).getTranslateY() - 6 * refreshRate / 2);
-            blocks.get(i).getLabel().setTranslateY(blocks.get(i).getLabel().getTranslateY() - 6 * refreshRate / 2);
+            blocks.get(i).setTranslateY(blocks.get(i).getTranslateY() - fac * refreshRate / 2);
+            blocks.get(i).getLabel().setTranslateY(blocks.get(i).getLabel().getTranslateY() - fac * refreshRate / 2);
             if (blocks.get(i).getTranslateY() > 800) {
                 mainframe.getChildren().remove(blocks.get(i));
                 to_be_removedB.add(blocks.get(i));
