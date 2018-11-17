@@ -4,14 +4,18 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -40,11 +44,16 @@ public class Main extends Application implements Serializable {
     ArrayList<Block> blocks = new ArrayList<Block>();
     Player P;
     private transient ComboBox<String> gameMenu;
+    private ToggleButton volume;
     private double t;
     private transient AnimationTimer animationTimer;
     private boolean isRunning;
     private double refreshRate = 2.5;
-    ImagePattern img = new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png")));
+    private transient ImagePattern img;
+    private transient Image volume_on;
+    private transient Image volume_off;
+    private transient ImageView toggler;
+    private boolean wantSound = true;
 
     public static void main(String[] args) {
         launch(args);
@@ -191,6 +200,18 @@ public class Main extends Application implements Serializable {
             }
         });
         hBox.getChildren().add(gameMenu);
+        volume = new ToggleButton();
+        img = new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png")));
+        volume_off = new Image("sample/mute-speakers.png");
+        volume_on = new Image("sample/volume-control.png");
+        toggler = new ImageView();
+        volume.setGraphic(toggler);
+        volume.setPrefSize(1, 1);
+        toggler.imageProperty().bind(Bindings.when(volume.selectedProperty())
+                .then(volume_on)
+                .otherwise(volume_off)
+        );
+        hBox.getChildren().add(volume);
         hBox.getChildren().add(new Label("Coins: "));
         hBox.getChildren().add(P.getCoinsLabel());
         mainframe.getChildren().add(hBox);
@@ -482,6 +503,18 @@ public class Main extends Application implements Serializable {
             }
         });
         hBox.getChildren().add(gameMenu);
+        volume = new ToggleButton();
+        img = new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png")));
+        volume_off = new Image("sample/mute-speakers.png");
+        volume_on = new Image("sample/volume-control.png");
+        toggler = new ImageView();
+        volume.setGraphic(toggler);
+        volume.setPrefSize(1, 1);
+        toggler.imageProperty().bind(Bindings.when(volume.selectedProperty())
+                .then(volume_on)
+                .otherwise(volume_off)
+        );
+        hBox.getChildren().add(volume);
         hBox.getChildren().add(new Label("Coins: "));
         hBox.getChildren().add(P.getCoinsLabel());
         mainframe.getChildren().add(hBox);
@@ -502,9 +535,10 @@ public class Main extends Application implements Serializable {
         Scene scene = new Scene(mainframe);
         scene.setOnKeyPressed(e ->
         {
-            if (e.getCode() == KeyCode.RIGHT && isRunning)
+            System.out.println(e.getCode());
+            if (e.getCode() == KeyCode.D && isRunning)
                 move(1);
-            if (e.getCode() == KeyCode.LEFT && isRunning)
+            if (e.getCode() == KeyCode.A && isRunning)
                 move(-1);
             if (e.getCode() == KeyCode.ESCAPE) {
                 if (isRunning) {
@@ -543,7 +577,8 @@ public class Main extends Application implements Serializable {
                 String mediaFile = "src/sample/TokenSound.mp3";
                 Media sound = new Media(new File(mediaFile).toURI().toString());
                 MediaPlayer player = new MediaPlayer(sound);
-                player.play();
+                if(volume.isSelected())
+                    player.play();
                 mainframe.getChildren().remove(tokens.get(i));
                 Circle expl = new Circle(P.getSnake().getXc() - 10, P.getSnake().getYc(), 20);
                 if (tokens.get(i).getTokenKind() == 1) {
