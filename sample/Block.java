@@ -77,7 +77,6 @@ public class Block extends Rectangle implements Serializable {
     public void decreaseStrength(int i) {
         strength -= i;
         this.label.setText(Integer.toString(strength));
-        System.out.println("WHY");
     }
 
     public void restore() {

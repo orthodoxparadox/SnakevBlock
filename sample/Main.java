@@ -44,6 +44,7 @@ public class Main extends Application implements Serializable {
     private transient AnimationTimer animationTimer;
     private boolean isRunning;
     private double refreshRate = 2.5;
+    ImagePattern img = new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png")));
 
     public static void main(String[] args) {
         launch(args);
@@ -507,9 +508,11 @@ public class Main extends Application implements Serializable {
                 move(-1);
             if (e.getCode() == KeyCode.ESCAPE) {
                 if (isRunning) {
+                    gameMenu.getItems().set(0, "Resume");
                     animationTimer.stop();
                     isRunning = false;
                 } else {
+                    gameMenu.getItems().set(0, "Pause");
                     animationTimer.start();
                     isRunning = true;
                 }
@@ -695,16 +698,15 @@ public class Main extends Application implements Serializable {
                     P.getSnake().removeSnakeBalls(1);
                     mainframe.getChildren().removeAll(block, block.getLabel());
                     blocks.remove(block);
-//                    Circle expl = new Circle(P.getSnake().getXc(), P.getSnake().getYc() - 20, 10);
-//                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png"))));
-//                    mainframe.getChildren().add(expl);
-//                    ScaleTransition explTr = new ScaleTransition(Duration.millis(100), expl);
-//                    explTr.setToX(5);
-//                    explTr.setToY(5);
-//                    explTr.setOnFinished(e -> {
-//                        mainframe.getChildren().remove(expl);
-//                    });
-//                    explTr.play();
+                    Circle expl = new Circle(P.getSnake().getXc(), P.getSnake().getYc() - 20, 10, img);
+                    mainframe.getChildren().add(expl);
+                    ScaleTransition explTr = new ScaleTransition(Duration.millis(100), expl);
+                    explTr.setToX(5);
+                    explTr.setToY(5);
+                    explTr.setOnFinished(e -> {
+                        mainframe.getChildren().remove(expl);
+                    });
+                    explTr.play();
                     return;
                 }
                 if(P.getSnake().havePowerup(4))
@@ -712,16 +714,15 @@ public class Main extends Application implements Serializable {
                     P.increaseScore(block.getStrength());
                     mainframe.getChildren().removeAll(block, block.getLabel());
                     blocks.remove(block);
-//                    Circle expl = new Circle(P.getSnake().getXc(), P.getSnake().getYc() - 20, 10);
-//                    expl.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("block_burst.png"))));
-//                    mainframe.getChildren().add(expl);
-//                    ScaleTransition explTr = new ScaleTransition(Duration.millis(100), expl);
-//                    explTr.setToX(5);
-//                    explTr.setToY(5);
-//                    explTr.setOnFinished(e -> {
-//                        mainframe.getChildren().remove(expl);
-//                    });
-//                    explTr.play();
+                    Circle expl = new Circle(P.getSnake().getXc(), P.getSnake().getYc() - 20, 10, img);
+                    mainframe.getChildren().add(expl);
+                    ScaleTransition explTr = new ScaleTransition(Duration.millis(100), expl);
+                    explTr.setToX(5);
+                    explTr.setToY(5);
+                    explTr.setOnFinished(e -> {
+                        mainframe.getChildren().remove(expl);
+                    });
+                    explTr.play();
                     return;
                 }
                 pushUp();
