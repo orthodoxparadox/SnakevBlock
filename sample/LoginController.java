@@ -24,11 +24,12 @@ public class LoginController {
     @FXML
     private AnchorPane mainframe;
     private String input_username;
+    private Player returning_player;
 
     public void make_account(ActionEvent actionEvent) {
         try {
             Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("Make_Account.fxml")));
-            sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+            sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
             ((Stage) mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,13 +37,24 @@ public class LoginController {
     }
 
     public void login(ActionEvent actionEvent) {
-        input_username = username.getText();
+        if (username.getText() != null)
+            input_username = username.getText();
+        returning_player = getPlayer();
+        if (returning_player == null) return;
         try {
-            Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("Main_Page.fxml")));
-            sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_page.fxml"));
+            Scene sc = new Scene((AnchorPane) fxmlLoader.load());
+            MainPageController mainPage = fxmlLoader.getController();
+            mainPage.setCurrent_player(returning_player);
+            sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
             ((Stage) mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Player getPlayer() {
+        String dataFile = input_username;
+        return Player.deserialize(dataFile);
     }
 }

@@ -176,7 +176,7 @@ public class Snake implements Serializable {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+                sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
                 ((Stage) mainframe.getScene().getWindow()).setScene(sc);
                 return;
             }

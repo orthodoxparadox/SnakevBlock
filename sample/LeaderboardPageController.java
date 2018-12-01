@@ -18,7 +18,7 @@ public class LeaderboardPageController {
     public void goBackToMainPage(ActionEvent actionEvent) {
         try {
             Scene sc = new Scene((AnchorPane)FXMLLoader.load(getClass().getResource("Main_Page.fxml")));
-            sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+            sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
             ((Stage) mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {
             e.printStackTrace();

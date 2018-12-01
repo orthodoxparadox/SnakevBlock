@@ -16,6 +16,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -31,7 +32,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public class Main extends Application implements Serializable {
-    private transient Pane mainframe;
+    public transient Pane mainframe;
     private static int debug = 0;
     private final int width = Constants.width;
     private final int height = Constants.height;
@@ -41,9 +42,18 @@ public class Main extends Application implements Serializable {
     ArrayList<Ball> balls = new ArrayList<Ball>();
     ArrayList<Token> tokens = new ArrayList<Token>();
     ArrayList<Block> blocks = new ArrayList<Block>();
+
+    public Player getP() {
+        return P;
+    }
+
+    public void setP(Player p) {
+        P = p;
+    }
+
     Player P;
     private transient ComboBox<String> gameMenu;
-    private ToggleButton mute;
+    private transient ToggleButton mute;
     private double t;
     private transient AnimationTimer animationTimer;
     private boolean isRunning;
@@ -80,7 +90,9 @@ public class Main extends Application implements Serializable {
             {
                 balls.get(i).store();
             }
-            writer = new ObjectOutputStream(new FileOutputStream("database.txt"));
+            String dataFile = P.getUsername();
+            dataFile += "database.ser";
+            writer = new ObjectOutputStream(new FileOutputStream(dataFile));
             writer.writeObject(this);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -95,13 +107,14 @@ public class Main extends Application implements Serializable {
             }
         }
     }
-    public static Main deserialize()
+
+    public static Main deserialize(String dataFile)
     {
         ObjectInputStream reader = null;
         Main get_Game = null;
         try
         {
-            reader = new ObjectInputStream(new FileInputStream("database.txt"));
+            reader = new ObjectInputStream(new FileInputStream(dataFile));
             get_Game = (Main) reader.readObject();
             get_Game.mainframe = new Pane();
             get_Game.P.restore();
@@ -128,19 +141,20 @@ public class Main extends Application implements Serializable {
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        finally {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        finally {
+//            try {
+//                reader.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
         return get_Game;
     }
 
@@ -184,12 +198,16 @@ public class Main extends Application implements Serializable {
                 isRunning = false;
                 this.serialize();
                 Scene sc = null;
+                System.out.println("SHOULD WORK");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_Page.fxml"));
                 try {
-                    sc = new Scene(FXMLLoader.load(getClass().getResource("PlayPage.fxml")));
+                    sc = new Scene((AnchorPane) fxmlLoader.load());
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+                MainPageController mainPage = fxmlLoader.getController();
+                mainPage.setCurrent_player(P);
+                sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
                 ((Stage) mainframe.getScene().getWindow()).setScene(sc);
             }
             else if(gameMenu.getValue().equals("Restart"))
@@ -451,11 +469,19 @@ public class Main extends Application implements Serializable {
         return Math.max(base_speed, intended_speed);
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+
+    Main() {
         mainframe = new Pane();
         mainframe.setPrefSize(width, height);
-        P = new Player(mainframe);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+//        mainframe = new Pane();
+//        mainframe.setPrefSize(width, height);
+//        if(P == null) System.out.println("mess up");
+//        P.setPane(mainframe);
+//        P = new Player(mainframe);
         HBox hBox = new HBox();
         hBox.setPrefHeight(height / 20);
         hBox.setPrefWidth(width);
@@ -487,13 +513,28 @@ public class Main extends Application implements Serializable {
                 isRunning = false;
                 this.serialize();
                 Scene sc = null;
+                System.out.println("SHOULD WORK");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_Page.fxml"));
                 try {
-                    sc = new Scene(FXMLLoader.load(getClass().getResource("PlayPage.fxml")));
+                    sc = new Scene((AnchorPane) fxmlLoader.load());
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                sc.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+                MainPageController mainPage = fxmlLoader.getController();
+                mainPage.setCurrent_player(P);
+                sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
                 ((Stage) mainframe.getScene().getWindow()).setScene(sc);
+//                animationTimer.stop();
+//                isRunning = false;
+//                this.serialize();
+//                Scene sc = null;
+//                try {
+//                    sc = new Scene(FXMLLoader.load(getClass().getResource("PlayPage.fxml")));
+//                } catch (IOException e1) {
+//                    e1.printStackTrace();
+//                }
+//                sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
+//                ((Stage) mainframe.getScene().getWindow()).setScene(sc);
             }
             else if(gameMenu.getValue().equals("Restart"))
             {
@@ -534,7 +575,6 @@ public class Main extends Application implements Serializable {
         Scene scene = new Scene(mainframe);
         scene.setOnKeyPressed(e ->
         {
-            System.out.println(e.getCode());
             if (e.getCode() == KeyCode.D && isRunning)
                 move(1);
             if (e.getCode() == KeyCode.A && isRunning)

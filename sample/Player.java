@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.io.Serializable;
+import java.io.*;
 
 public class Player implements Serializable {
     private final int width = Constants.width;
@@ -16,8 +16,10 @@ public class Player implements Serializable {
     private transient Label scoreLabel;
     private int coins = 0;
     private transient Label coinsLabel;
+    private String username;
 
-    public Player(Pane mainframe) {
+    public Player(Pane mainframe, String username) {
+        this.username = username;
         this.score = 0;
         this.coins = 0;
         this.coinsLabel = new Label("0");
@@ -26,6 +28,17 @@ public class Player implements Serializable {
         this.scoreLabel.setTextFill(Color.WHITE);
         this.snake = new Snake(5, mainframe, width/2, height/2.0);
         this.mainframe = mainframe;
+    }
+
+    public Player(String username) {
+        this.username = username;
+        this.score = 0;
+        this.coins = 0;
+        this.coinsLabel = new Label("0");
+        this.coinsLabel.setTextFill(Color.WHITE);
+        this.scoreLabel = new Label("0");
+        this.scoreLabel.setTextFill(Color.WHITE);
+//        this.snake = new Snake(5, mainframe, width/2, height/2.0);
     }
 
     public int getWidth() {
@@ -83,11 +96,60 @@ public class Player implements Serializable {
         scoreLabel.setText(Integer.toString(score));
     }
 
+    public void serialize() {
+        String dataFile = this.username;
+        dataFile += ".ser";
+        ObjectOutputStream writer = null;
+        try {
+            writer = new ObjectOutputStream(new FileOutputStream(dataFile));
+            writer.writeObject(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static Player deserialize(String username) {
+        String dataFile = username;
+        dataFile += ".ser";
+        ObjectInputStream reader = null;
+        try {
+            reader = new ObjectInputStream(new FileInputStream(dataFile));
+            return (Player) reader.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            //no player found, take care of this
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public void restore()
     {
         scoreLabel = new Label(Integer.toString(score));
         coinsLabel = new Label(Integer.toString(coins));
         coinsLabel.setTextFill(Color.WHITE);
         scoreLabel.setTextFill(Color.WHITE);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPane(Pane mainframe) {
+        this.mainframe = mainframe;
+        this.snake = new Snake(5, mainframe, width / 2, height / 2.0);
+//        System.out.println("issue");
     }
 }
