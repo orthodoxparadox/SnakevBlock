@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Model class to hold block information
+ */
 public class Block extends Rectangle implements Serializable {
     private static final long serialVersionUID = 42L;
     private final int width = Constants.width;
@@ -22,8 +25,15 @@ public class Block extends Rectangle implements Serializable {
     double xc;
     double yc;
     private transient static ArrayList<Color> colors = new ArrayList<Color>(Arrays.asList(Color.FUCHSIA, Color.GREENYELLOW, Color.SKYBLUE, Color.RED, Color.TURQUOISE));
-    public Block(double xc, double yc, int strength)
-    {
+
+    /**
+     * Constructor for block class
+     *
+     * @param xc
+     * @param yc
+     * @param strength
+     */
+    public Block(double xc, double yc, int strength) {
         super(xc, yc, 60, 60);
         this.xc = xc;
         this.yc = yc;
@@ -38,48 +48,59 @@ public class Block extends Rectangle implements Serializable {
         this.setFill(colors.get(ThreadLocalRandom.current().nextInt(5)));
     }
 
-    public void store()
-    {
+    /**
+     * storing values to prepare for serialization
+     */
+    public void store() {
 //        xc = getTranslateX();
         yc = getTranslateY();
     }
+
+    /**
+     * getter for strength
+     * @return strength
+     */
     public int getStrength() {
         return strength;
     }
 
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
+    /**
+     * getter for label
+     * @return label
+     */
     public Label getLabel() {
         return label;
     }
 
+    /**
+     * setter for label
+     * @param label
+     */
     public void setLabel(Label label) {
         this.label = label;
     }
 
+    /**
+     * getter for x-coordinate
+     * @return xc
+     */
     public double getXc() {
         return xc;
     }
 
-    public void setXc(double xc) {
-        this.xc = xc;
-    }
-
-    public double getYc() {
-        return yc;
-    }
-
-    public void setYc(double yc) {
-        this.yc = yc;
-    }
-
-    public void decreaseStrength(int i) {
-        strength -= i;
+    /**
+     * decreases strength of block
+     *
+     * @param factor
+     */
+    public void decreaseStrength(int factor) {
+        strength -= factor;
         this.label.setText(Integer.toString(strength));
     }
 
+    /**
+     * restore function used for deserialization
+     */
     public void restore() {
         System.out.println(xc + " " + yc);
         setTranslateX(xc);

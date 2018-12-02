@@ -201,7 +201,7 @@ public class Main extends Application implements Serializable {
                 System.out.println("SHOULD WORK");
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_Page.fxml"));
                 try {
-                    sc = new Scene((AnchorPane) fxmlLoader.load());
+                    sc = new Scene(fxmlLoader.load());
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -517,7 +517,7 @@ public class Main extends Application implements Serializable {
                 System.out.println("SHOULD WORK");
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_Page.fxml"));
                 try {
-                    sc = new Scene((AnchorPane) fxmlLoader.load());
+                    sc = new Scene(fxmlLoader.load());
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -868,7 +868,7 @@ public class Main extends Application implements Serializable {
             animationTimer.stop();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ScoreDisplay.fxml"));
             try {
-                Scene sc = new Scene((AnchorPane) fxmlLoader.load());
+                Scene sc = new Scene(fxmlLoader.load());
                 ScoreDisplayController scoreDisplay = fxmlLoader.getController();
                 scoreDisplay.setCurrent_player(P);
                 scoreDisplay.setScore(P.getScore());

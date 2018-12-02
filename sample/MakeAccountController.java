@@ -28,7 +28,7 @@ public class MakeAccountController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_Page.fxml"));
         Scene sc = null;
         try {
-            sc = new Scene((AnchorPane) fxmlLoader.load());
+            sc = new Scene(fxmlLoader.load());
         } catch (IOException e) {
             e.printStackTrace();
         }

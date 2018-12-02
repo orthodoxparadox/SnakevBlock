@@ -1,8 +1,8 @@
 package sample;
 
 public interface Constants {
-    static final int width = 320;
-    static final int height = 600;
-    static final int rows = 5;
-    static final int sensitivity = 2;
+    int width = 320;
+    int height = 600;
+    int rows = 5;
+    int sensitivity = 2;
 }

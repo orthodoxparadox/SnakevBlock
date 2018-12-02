@@ -32,7 +32,7 @@ public class MainPageController {
             current_game = Main.deserialize(dataFile);
 //            current_game = new Main();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PlayPage.fxml"));
-            Scene sc = new Scene((AnchorPane) fxmlLoader.load());
+            Scene sc = new Scene(fxmlLoader.load());
             PlayPageController playPage = fxmlLoader.getController();
             playPage.setCurrent_player(current_player);
             if (current_game == null) System.out.println("confirm");

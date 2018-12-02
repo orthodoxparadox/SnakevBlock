@@ -28,7 +28,7 @@ public class LoginController {
 
     public void make_account(ActionEvent actionEvent) {
         try {
-            Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("Make_Account.fxml")));
+            Scene sc = new Scene(FXMLLoader.load(getClass().getResource("Make_Account.fxml")));
             sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
             ((Stage) mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {
@@ -43,7 +43,7 @@ public class LoginController {
         if (returning_player == null) return;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_page.fxml"));
-            Scene sc = new Scene((AnchorPane) fxmlLoader.load());
+            Scene sc = new Scene(fxmlLoader.load());
             MainPageController mainPage = fxmlLoader.getController();
 //            returning_player.serialize();
             mainPage.setCurrent_player(returning_player);

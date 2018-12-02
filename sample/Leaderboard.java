@@ -7,8 +7,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Model class to hold Leaderboard information
+ */
 public class Leaderboard implements Serializable {
+
     private static final long serialVersionUID = 42L;
+
+    /**
+     * getter for leaders
+     *
+     * @return <code> ArrayList </code> of <code> Player </code> containing top players
+     */
     public ArrayList<Player> getLeaders() {
         return leaders;
     }
@@ -17,12 +27,20 @@ public class Leaderboard implements Serializable {
         this.leaders = leaders;
     }
 
+    /**
+     * getter for dates
+     * @return <code> ArrayList </code> of <code> String </code> containing dates
+     */
     public ArrayList<String> getDates() {
         return dates;
     }
+
     private ArrayList<Player> leaders;
     private ArrayList<String> dates;
 
+    /**
+     * Constructor for Leaderboard class
+     */
     Leaderboard() {
         this.leaders = new ArrayList<>();
         this.dates = new ArrayList<String>();
@@ -34,6 +52,10 @@ public class Leaderboard implements Serializable {
         System.out.println(dates.size());
     }
 
+    /**
+     * Function to update Leaderboard with regard to current player
+     * @param current_player
+     */
     public void updateLeaderboard(Player current_player) {
         for (int i = 0; i < 10; i++) {
             if (current_player.getScore() > leaders.get(i).getScore()) {
@@ -51,6 +73,9 @@ public class Leaderboard implements Serializable {
         }
     }
 
+    /**
+     * Serialize
+     */
     public void serialize() {
         ObjectOutputStream writer = null;
         try {
@@ -66,10 +91,13 @@ public class Leaderboard implements Serializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ;
         }
     }
 
+    /**
+     * Deserialize
+     * @return deserialized Leaderboard
+     */
     public static Leaderboard deserialize() {
         ObjectInputStream reader = null;
         try {

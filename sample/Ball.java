@@ -10,6 +10,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Model class to hold ball information
+ */
 public class Ball extends Circle implements Serializable {
     private static final long serialVersionUID = 42L;
     private final int width = Constants.width;
@@ -19,8 +22,15 @@ public class Ball extends Circle implements Serializable {
     private int strength;
     private double xc;
     private double yc;
-    Ball(double x, double y, int strength)
-    {
+
+    /**
+     * Constructor for ball
+     *
+     * @param x
+     * @param y
+     * @param strength
+     */
+    Ball(double x, double y, int strength) {
         super(x, y, 8, Color.YELLOW);
         xc = x;
         yc = y;
@@ -32,28 +42,41 @@ public class Ball extends Circle implements Serializable {
         this.label.setAlignment(Pos.CENTER);
     }
 
-    public void store()
-    {
+    /**
+     * storing values to prepare for serialization
+     */
+    public void store() {
         xc = getTranslateX();
         yc = getTranslateY();
     }
 
+    /**
+     * getter for strength
+     * @return a <code> Integer </code> specifying strength of ball
+     */
     public int getStrength() {
         return strength;
     }
 
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
+    /**
+     * getter for label
+     * @return a <code> Label </code> of ball
+     */
     public Label getLabel() {
         return label;
     }
 
+    /**
+     * setter for label
+     * @param label
+     */
     public void setLabel(Label label) {
         this.label = label;
     }
 
+    /**
+     * restore function used for deserialization
+     */
     public void restore() {
         setTranslateX(xc);
         setTranslateY(yc);
