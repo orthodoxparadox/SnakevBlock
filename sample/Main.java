@@ -166,7 +166,6 @@ public class Main extends Application implements Serializable {
     public void renewGame() {
         mainframe.getChildren().clear();
         P.setSnake(new Snake(4, mainframe, width/2, height/2));
-        P.setScore(0);
         tokens.clear();
         blocks.clear();
         walls.clear();

@@ -26,6 +26,16 @@ public class MainPageController {
     private Player current_player;
     private Main current_game;
 
+    public Boolean getContinueBonus() {
+        return continueBonus;
+    }
+
+    public void setContinueBonus(Boolean continueBonus) {
+        this.continueBonus = continueBonus;
+    }
+
+    private Boolean continueBonus = false;
+
 
     /**
      * Function to start new Game
@@ -43,6 +53,7 @@ public class MainPageController {
             Scene sc = new Scene(fxmlLoader.load());
             PlayPageController playPage = fxmlLoader.getController();
             playPage.setCurrent_player(current_player);
+            playPage.setContinueBonus(continueBonus);
             if (current_game == null) System.out.println("confirm");
             if (current_game != null) playPage.setRunningGame(current_game);
             sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());

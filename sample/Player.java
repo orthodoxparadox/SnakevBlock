@@ -116,7 +116,8 @@ public class Player implements Serializable {
      * @param score <code> Integer </code>
      */
     public void setScore(int score) {
-        score = score;
+        System.out.println("does this happen");
+        this.score = score;
         scoreLabel.setText(Integer.toString(score));
     }
 
@@ -168,6 +169,11 @@ public class Player implements Serializable {
     }
 
 
+    public void setCoins(int coins) {
+        this.coins = coins;
+        this.coinsLabel.setText(Integer.toString(this.coins));
+    }
+
     /**
      * Restore function for deserialize
      */
@@ -186,6 +192,10 @@ public class Player implements Serializable {
         return username;
     }
 
+
+    public int getCoins() {
+        return coins;
+    }
 
     /**
      * Setter for pane

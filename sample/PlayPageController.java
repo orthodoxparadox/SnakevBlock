@@ -21,6 +21,7 @@ public class PlayPageController {
     private AnchorPane mainframe;
     private Main runningGame;
     private Player current_player;
+    private Boolean continueBonus = false;
 
 
     /**
@@ -59,8 +60,10 @@ public class PlayPageController {
         System.out.println(3);
         try {
             Stage stage = new Stage();
+            System.out.println(current_player.getScore());
             System.out.println(current_player.getUsername());
             current_player.setPane(runningGame.mainframe);
+            if (!continueBonus) current_player.setScore(0);
             System.out.println(runningGame.mainframe.getChildren().size());
             runningGame.setP(current_player);
             runningGame.start(stage);
@@ -78,5 +81,13 @@ public class PlayPageController {
      */
     public void setCurrent_player(Player current_player) {
         this.current_player = current_player;
+    }
+
+    public Boolean getContinueBonus() {
+        return continueBonus;
+    }
+
+    public void setContinueBonus(Boolean continueBonus) {
+        this.continueBonus = continueBonus;
     }
 }
