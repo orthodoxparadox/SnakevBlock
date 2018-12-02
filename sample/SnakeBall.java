@@ -29,6 +29,11 @@ public class SnakeBall extends Circle implements Serializable {
         this.setTranslateY(yc);
     }
 
+    /**
+     * Sets fill color for Snakeballs
+     *
+     * @param color <code> Color</code>
+     */
     public void setFill(Color color) {
         super.setFill(color);
     }
