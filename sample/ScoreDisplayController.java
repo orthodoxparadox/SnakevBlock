@@ -33,7 +33,6 @@ public class ScoreDisplayController {
 
     /**
      * Setter for score
-     *
      * @param score <code> Integer </code>
      */
     public void setScore(int score) {
@@ -101,6 +100,11 @@ public class ScoreDisplayController {
         this.current_player = current_player;
     }
 
+    /**
+     * Function to continue game for 20 coins
+     *
+     * @param actionEvent <code> ActionEvent </code>
+     */
     public void continueGame(ActionEvent actionEvent) {
         if (current_player.getCoins() < 20) return;
         current_player.setCoins(current_player.getCoins() - 20);

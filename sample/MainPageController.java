@@ -39,7 +39,6 @@ public class MainPageController {
 
     /**
      * Function to start new Game
-     *
      * @param actionEvent <code> ActionEvent </code>
      */
     public void startGame(ActionEvent actionEvent) {

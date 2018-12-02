@@ -29,6 +29,10 @@ public class SnakeBall extends Circle implements Serializable {
         this.setTranslateY(yc);
     }
 
+    public void setFill(Color color) {
+        super.setFill(color);
+    }
+
     /**
      * Function to move Snakeball right
      * @param dist <code> Double </code>

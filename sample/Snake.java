@@ -143,6 +143,7 @@ public class Snake implements Serializable {
         System.out.println(strength);
         for(int i = 0; i < strength; i++) {
             SnakeBall s = new SnakeBall(head.getTranslateX(), yc + 8*sz);
+            if (powers[4]) s.setFill(Color.RED);
             mainframe.getChildren().add(s);
             balls.add(s);
             sz++;
@@ -192,8 +193,23 @@ public class Snake implements Serializable {
      * @param t <code> Long </code>
      */
     public void givePowerup(int k, long t) {
+        if (k == 4) {
+            this.setFill(Color.RED);
+        }
         powers[k] = true;
         powertime[k] = t;
+    }
+
+
+    /**
+     * sets Fill Color for indication of shield powerup
+     *
+     * @param color <code> Color </code>
+     */
+    public void setFill(Color color) {
+        for (SnakeBall snakeBall : balls) {
+            snakeBall.setFill(color);
+        }
     }
 
     /**
@@ -202,9 +218,10 @@ public class Snake implements Serializable {
     public void reducePowerups() {
         for(int i = 1; i < 5; i++) {
             if(powers[i]) {
-                if(System.currentTimeMillis() > powertime[i] + 10000) {
+                if (System.currentTimeMillis() > powertime[i] + 5000) {
                     System.out.println(System.currentTimeMillis() + " " + powertime[i] + " " + i);
                     powers[i] = false;
+                    if (i == 4) this.setFill(Color.ORANGE);
                 }
             }
         }
