@@ -23,9 +23,9 @@ public class Token extends Circle implements Serializable {
     /**
      * Constructor for Token Class
      *
-     * @param x
-     * @param y
-     * @param tokenKind
+     * @param x <code> Double </code>
+     * @param y <code> Double </code>
+     * @param tokenKind <code> Integer </code>
      */
     Token(double x, double y, int tokenKind) {
         super(x, y, 8);
@@ -46,7 +46,7 @@ public class Token extends Circle implements Serializable {
 
     /**
      * Function to pull down tokens
-     * @param dist
+     * @param dist <code> Double </code>
      */
     public void pull(double dist) {
         this.setTranslateY(this.getTranslateY() + dist);

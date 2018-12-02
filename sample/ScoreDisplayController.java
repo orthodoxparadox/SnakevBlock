@@ -32,7 +32,7 @@ public class ScoreDisplayController {
     /**
      * Setter for score
      *
-     * @param score
+     * @param score <code> Integer </code>
      */
     public void setScore(int score) {
         scoreLabel.setText((Integer.toString(score)));
@@ -41,7 +41,7 @@ public class ScoreDisplayController {
 
     /**
      * Function to start new Game
-     * @param actionEvent
+     * @param actionEvent <code> ActionEvent </code>
      */
     public void startNewGame(ActionEvent actionEvent) {
         try {
@@ -74,7 +74,7 @@ public class ScoreDisplayController {
 
     /**
      * Function to return to Main Menu
-     * @param actionEvent
+     * @param actionEvent <code> ActionEvent </code>
      */
     public void goToMainMenu(ActionEvent actionEvent) {
         try {
@@ -92,7 +92,7 @@ public class ScoreDisplayController {
 
     /**
      * Setter for current_player
-     * @param current_player
+     * @param current_player <code> Player </code>
      */
     public void setCurrent_player(Player current_player) {
         this.current_player = current_player;

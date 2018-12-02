@@ -26,7 +26,7 @@ public class PlayPageController {
     /**
      * Setter for runningGame
      *
-     * @param runningGame
+     * @param runningGame <code> Main </code>
      */
     public void setRunningGame(Main runningGame) {
         this.runningGame = runningGame;
@@ -34,7 +34,7 @@ public class PlayPageController {
 
     /**
      * Function to resume game
-     * @param actionEvent
+     * @param actionEvent <code> Game </code>
      */
     public void resumeGame(ActionEvent actionEvent) {
         String dataFile = current_player.getUsername();
@@ -51,7 +51,7 @@ public class PlayPageController {
 
     /**
      * Function to start new game
-     * @param actionEvent
+     * @param actionEvent <code> ActionEvent </code>
      */
     public void startGame(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
@@ -74,7 +74,7 @@ public class PlayPageController {
 
     /**
      * Setter for current_player
-     * @param current_player
+     * @param current_player <code> Player </code>
      */
     public void setCurrent_player(Player current_player) {
         this.current_player = current_player;

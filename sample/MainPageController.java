@@ -30,7 +30,7 @@ public class MainPageController {
     /**
      * Function to start new Game
      *
-     * @param actionEvent
+     * @param actionEvent <code> ActionEvent </code>
      */
     public void startGame(ActionEvent actionEvent) {
         try {
@@ -54,7 +54,7 @@ public class MainPageController {
 
     /**
      * Function to redirect to leaderboard
-     * @param actionEvent
+     * @param actionEvent <code> ActionEvent </code>
      */
     public void goToLeaderboard(ActionEvent actionEvent) {
         try {
@@ -76,7 +76,7 @@ public class MainPageController {
 
     /**
      * Setter for current player
-     * @param current_player
+     * @param current_player <code> Player </code>
      */
     public void setCurrent_player(Player current_player) {
         this.current_player = current_player;

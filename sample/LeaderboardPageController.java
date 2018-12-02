@@ -85,7 +85,7 @@ public class LeaderboardPageController {
     /**
      * Setter for current_player
      *
-     * @param current_player
+     * @param current_player <code> Player </code>
      */
     public void setCurrent_player(Player current_player) {
         this.current_player = current_player;
@@ -95,7 +95,7 @@ public class LeaderboardPageController {
 
     /**
      * Function to go back to main page
-     * @param actionEvent
+     * @param actionEvent <code> ActionEvent </code>
      */
     public void goBackToMainPage(ActionEvent actionEvent) {
         try {
@@ -113,8 +113,8 @@ public class LeaderboardPageController {
 
     /**
      * Setter for leaders
-     * @param leaders
-     * @param dates
+     * @param leaders <code> ArrayList of Players</code>
+     * @param dates <code> ArrayList of Strings </code>
      */
     public void setLeaders(ArrayList<Player> leaders, ArrayList<String> dates) {
         name1.setText(leaders.get(0).getUsername());

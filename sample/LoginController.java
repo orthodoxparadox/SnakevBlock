@@ -32,7 +32,7 @@ public class LoginController {
     /**
      * Function to register new user
      *
-     * @param actionEvent
+     * @param actionEvent <code> ActionEvent </code>
      */
     public void make_account(ActionEvent actionEvent) {
         try {
@@ -46,7 +46,7 @@ public class LoginController {
 
     /**
      * Function to login existing user
-     * @param actionEvent
+     * @param actionEvent <code> ActionEvent </code>
      */
     public void login(ActionEvent actionEvent) {
         if (username.getText() != null)

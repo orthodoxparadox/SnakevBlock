@@ -15,8 +15,8 @@ public class Magnet extends Token{
     /**
      * Constructor for Magnet class
      *
-     * @param x
-     * @param y
+     * @param x <code> Double </code>
+     * @param y <code> Double </code>
      */
     public Magnet(double x, double y) {
         super(x, y, 2);

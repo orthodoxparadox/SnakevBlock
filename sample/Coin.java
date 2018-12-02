@@ -13,9 +13,8 @@ public class Coin extends Token {
 
     /**
      * Constructor for Coin class
-     *
-     * @param x
-     * @param y
+     * @param x <code> Double </code>
+     * @param y <code> Double </code>
      */
     public Coin(double x, double y) {
         super(x, y, 1);

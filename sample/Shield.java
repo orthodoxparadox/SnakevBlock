@@ -14,8 +14,8 @@ public class Shield extends Token{
     /**
      * Constructor for Shield class
      *
-     * @param x
-     * @param y
+     * @param x <code> Double </code>
+     * @param y <code> Double </code>
      */
     public Shield(double x, double y) {
         super(x, y, 4);

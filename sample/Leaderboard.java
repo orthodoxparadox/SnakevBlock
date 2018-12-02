@@ -16,7 +16,6 @@ public class Leaderboard implements Serializable {
 
     /**
      * getter for leaders
-     *
      * @return <code> ArrayList </code> of <code> Player </code> containing top players
      */
     public ArrayList<Player> getLeaders() {
@@ -54,7 +53,7 @@ public class Leaderboard implements Serializable {
 
     /**
      * Function to update Leaderboard with regard to current player
-     * @param current_player
+     * @param current_player <code> Player </code>
      */
     public void updateLeaderboard(Player current_player) {
         for (int i = 0; i < 10; i++) {

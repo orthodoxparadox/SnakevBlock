@@ -26,9 +26,9 @@ public class Ball extends Circle implements Serializable {
     /**
      * Constructor for ball
      *
-     * @param x
-     * @param y
-     * @param strength
+     * @param x <code> Double </code>
+     * @param y <code> Double </code>
+     * @param strength <code> Integer </code>
      */
     Ball(double x, double y, int strength) {
         super(x, y, 8, Color.YELLOW);
@@ -68,7 +68,7 @@ public class Ball extends Circle implements Serializable {
 
     /**
      * setter for label
-     * @param label
+     * @param label <code> Label </code>
      */
     public void setLabel(Label label) {
         this.label = label;

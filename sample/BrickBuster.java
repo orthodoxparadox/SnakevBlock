@@ -14,9 +14,8 @@ public class BrickBuster extends Token{
 
     /**
      * Constructor for BrickBuster class
-     *
-     * @param x
-     * @param y
+     * @param x <code> Double </code>
+     * @param y <code> Double </code>
      */
     public BrickBuster(double x, double y) {
         super(x, y, 3);

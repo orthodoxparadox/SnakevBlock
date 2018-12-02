@@ -48,7 +48,7 @@ public class Main extends Application implements Serializable {
     /**
      * setter for Player
      *
-     * @param p
+     * @param p <code> Player </code>
      */
     public void setP(Player p) {
         P = p;
@@ -69,7 +69,7 @@ public class Main extends Application implements Serializable {
 
     /**
      * Main class
-     * @param args
+     * @param args <code> String[] </code>
      */
     public static void main(String[] args) {
         launch(args);
@@ -113,8 +113,8 @@ public class Main extends Application implements Serializable {
 
     /**
      * Deserialize
-     * @param dataFile
-     * @return deserializes <code> Main </code>
+     * @param dataFile <code> String </code>
+     * @return deserialized <code> Main </code>
      */
     public static Main deserialize(String dataFile) {
         ObjectInputStream reader = null;
@@ -236,8 +236,8 @@ public class Main extends Application implements Serializable {
 
     /**
      * Make row of blocks
-     * @param pos
-     * @param strength
+     * @param pos <code> ArrayList of Integer </code>
+     * @param strength <code> ArrayList of Integer </code>
      */
     public void makeRowOfBlocks(ArrayList<Integer> pos, ArrayList<Integer> strength) {
         int cnt = pos.size();
@@ -251,9 +251,9 @@ public class Main extends Application implements Serializable {
 
     /**
      * Make a new wall
-     * @param pos
-     * @param y
-     * @param height
+     * @param pos <code> Integer </code>
+     * @param y <code> Double </code>
+     * @param height <code> Double </code>
      * @return a <code> Boolean </code> indicating successful addition
      */
     public boolean addWall(int pos, double y, double height) {
@@ -268,7 +268,7 @@ public class Main extends Application implements Serializable {
 
     /**
      * Check for intersection of snake against GUI elements
-     * @param to_add
+     * @param to_add <code> Node </code>
      * @return a <code> Boolean </code> indicating intersection
      */
     public boolean intersection(Node to_add) {
@@ -424,9 +424,9 @@ public class Main extends Application implements Serializable {
 
     /**
      * Make new token
-     * @param x
-     * @param y
-     * @param type
+     * @param x <code> Double </code>
+     * @param y <code> Double </code>
+     * @param type <code> Integer </code>
      * @return a <code> Boolean </code> indicating successful addition
      */
     private boolean addToken(double x, double y, int type) {
@@ -469,7 +469,7 @@ public class Main extends Application implements Serializable {
 
     /**
      * Function to move Snake
-     * @param direction
+     * @param direction <code> Integer </code>
      */
     private void move(int direction) {
         if (direction == 1) {
@@ -521,7 +521,7 @@ public class Main extends Application implements Serializable {
 
     /**
      * Start for javafx class
-     * @param primaryStage
+     * @param primaryStage <code> Stage </code>
      * @throws Exception
      */
     @Override

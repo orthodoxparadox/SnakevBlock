@@ -21,9 +21,9 @@ public class Wall extends Rectangle implements Serializable {
     /**
      * Constructor for Wall class
      *
-     * @param xc
-     * @param yc
-     * @param h
+     * @param xc <code> Double </code>
+     * @param yc <code> Double </code>
+     * @param h <code> Double </code>
      */
     public Wall(double xc, double yc, double h) {
         super(0, 0, 1, h);

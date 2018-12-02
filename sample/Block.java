@@ -29,9 +29,9 @@ public class Block extends Rectangle implements Serializable {
     /**
      * Constructor for block class
      *
-     * @param xc
-     * @param yc
-     * @param strength
+     * @param xc <code> Double </code>
+     * @param yc <code> Double </code>
+     * @param strength <code> Integer </code>
      */
     public Block(double xc, double yc, int strength) {
         super(xc, yc, 60, 60);
@@ -74,7 +74,7 @@ public class Block extends Rectangle implements Serializable {
 
     /**
      * setter for label
-     * @param label
+     * @param label <code> Label </code>
      */
     public void setLabel(Label label) {
         this.label = label;
@@ -90,8 +90,7 @@ public class Block extends Rectangle implements Serializable {
 
     /**
      * decreases strength of block
-     *
-     * @param factor
+     * @param factor <code> Integer </code>
      */
     public void decreaseStrength(int factor) {
         strength -= factor;

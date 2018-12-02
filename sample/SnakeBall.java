@@ -18,8 +18,8 @@ public class SnakeBall extends Circle implements Serializable {
     /**
      * Constructor for SnakeBall class
      *
-     * @param xc
-     * @param yc
+     * @param xc <code> Double </code>
+     * @param yc <code> Double </code>
      */
     public SnakeBall(double xc, double yc) {
         super(0, 0, 5, Color.ORANGE);
@@ -31,7 +31,7 @@ public class SnakeBall extends Circle implements Serializable {
 
     /**
      * Function to move Snakeball right
-     * @param dist
+     * @param dist <code> Double </code>
      */
     public void moveRight(double dist) {
         this.setTranslateX(Math.min(width, this.getTranslateX() + dist));
@@ -39,7 +39,7 @@ public class SnakeBall extends Circle implements Serializable {
 
     /**
      * Function to move Snakeball left
-     * @param dist
+     * @param dist <code> Double </code>
      */
     public void moveLeft(double dist) {
         this.setTranslateX(Math.max(0, this.getTranslateX() - dist));
@@ -47,7 +47,7 @@ public class SnakeBall extends Circle implements Serializable {
 
     /**
      * Function to move Snakeball to certain location
-     * @param v
+     * @param v <code> Double </code>
      */
     public void moveTo(double v) {
         this.setTranslateX(Math.min(Math.max(0, v), width));

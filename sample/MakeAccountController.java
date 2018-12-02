@@ -27,7 +27,7 @@ public class MakeAccountController {
     /**
      * Function to make new account
      *
-     * @param actionEvent
+     * @param actionEvent <code> ActionEvent </code>
      */
     public void makeNewAccount(ActionEvent actionEvent) {
         if (username_tf.getText() != null)

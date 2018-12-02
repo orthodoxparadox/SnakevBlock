@@ -42,10 +42,10 @@ public class Snake implements Serializable {
 
     /**
      * Constructor for Snake class
-     * @param sz
-     * @param mainframe
-     * @param xc
-     * @param yc
+     * @param sz <code> Integer </code>
+     * @param mainframe <code> Pane </code>
+     * @param xc <code> Double </code>
+     * @param yc <code> Double </code>
      */
     Snake(int sz, Pane mainframe, double xc, double yc) {
         this.powers = new boolean[5];
@@ -68,7 +68,7 @@ public class Snake implements Serializable {
 
     /**
      * Function to move right
-     * @param dist
+     * @param dist <code> Double </code>
      */
     public void moveRight(double dist) {
         balls.forEach(s -> s.moveRight(dist));
@@ -77,7 +77,7 @@ public class Snake implements Serializable {
 
     /**
      * Function to move left
-     * @param dist
+     * @param dist <code> Double </code>
      */
     public void moveLeft(double dist) {
         balls.forEach(s -> s.moveLeft(dist));
@@ -103,7 +103,7 @@ public class Snake implements Serializable {
 
     /**
      * Setter for mainframe
-     * @param mainframe
+     * @param mainframe <code> Pane </code>
      */
     public void setMainframe(Pane mainframe) {
         this.mainframe = mainframe;
@@ -128,7 +128,7 @@ public class Snake implements Serializable {
 
     /**
      * Function to check intersection of Snake
-     * @param node
+     * @param node <code> Node </code>
      * @return a <code> Boolean </code> to indicate intersection
      */
     public boolean checkIntersection(Node node) {
@@ -137,7 +137,7 @@ public class Snake implements Serializable {
 
     /**
      * Function to add Snake balls
-     * @param strength
+     * @param strength <code> Integer </code>
      */
     public void addSnakeBalls(int strength) {
         System.out.println(strength);
@@ -161,7 +161,7 @@ public class Snake implements Serializable {
 
     /**
      * Function to remove Snake balls
-     * @param strength
+     * @param strength <code> Integer </code>
      * @return an <code> Integer </code> to indicate Snake alive status
      */
     public int removeSnakeBalls(int strength) {
@@ -179,7 +179,7 @@ public class Snake implements Serializable {
 
     /**
      * Function to move Snake to a location
-     * @param v
+     * @param v <code> Double </code>
      */
     public void moveTo(double v) {
         balls.forEach(s -> s.moveTo(v));
@@ -188,8 +188,8 @@ public class Snake implements Serializable {
 
     /**
      * Function to give powerup to snake
-     * @param k
-     * @param t
+     * @param k <code> Integer </code>
+     * @param t <code> Long </code>
      */
     public void givePowerup(int k, long t) {
         powers[k] = true;
@@ -212,7 +212,7 @@ public class Snake implements Serializable {
 
     /**
      * Function to remove powerup
-     * @param k
+     * @param k <code> Integer </code>
      */
     public void endPowerup(int k) {
         powers[k] = false;
@@ -221,8 +221,8 @@ public class Snake implements Serializable {
 
     /**
      * Function to check active powerup
-     * @param i
-     * @return
+     * @param i <code> Integer </code>
+     * @return <code> Boolean </code> indicating presence of powerup
      */
     public boolean havePowerup(int i) {
         return powers[i];
@@ -230,8 +230,7 @@ public class Snake implements Serializable {
 
     /**
      * Function to resurrect Snake
-     *
-     * @param mainframe
+     * @param mainframe <code> Pane </code>
      */
     public void resurrect(Pane mainframe) {
         this.mainframe = mainframe;

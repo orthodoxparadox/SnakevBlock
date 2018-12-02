@@ -17,7 +17,7 @@ public class Login extends Application {
     /**
      * Start for javafx classes
      *
-     * @param primaryStage
+     * @param primaryStage <code> Stage </code>
      * @throws Exception
      */
     @Override
@@ -32,7 +32,7 @@ public class Login extends Application {
 
     /**
      * Main function
-     * @param args
+     * @param args <code> Strings[] </code>
      */
     public static void main(String[] args) {
         launch(args);

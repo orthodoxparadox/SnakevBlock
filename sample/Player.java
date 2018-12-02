@@ -37,7 +37,7 @@ public class Player implements Serializable {
     /**
      * Constructor for Player class
      *
-     * @param username
+     * @param username <code> String </code>
      */
     public Player(String username) {
         this.username = username;
@@ -78,7 +78,7 @@ public class Player implements Serializable {
 
     /**
      * Setter for snake
-     * @param snake
+     * @param snake <code> Snake </code>
      */
     public void setSnake(Snake snake) {
         this.snake = snake;
@@ -87,7 +87,7 @@ public class Player implements Serializable {
     /**
      * Increase player score by factor
      *
-     * @param factor
+     * @param factor <code> Integer </code>
      */
     public void increaseScore(int factor) {
         this.score += factor;
@@ -113,7 +113,7 @@ public class Player implements Serializable {
     /**
      * Setter for score
      *
-     * @param score
+     * @param score <code> Integer </code>
      */
     public void setScore(int score) {
         score = score;
@@ -145,7 +145,7 @@ public class Player implements Serializable {
 
     /**
      * Deserialize
-     * @param username
+     * @param username <code> String </code>
      * @return deserialized <code> Player </code>
      */
     public static Player deserialize(String username) {
@@ -189,7 +189,7 @@ public class Player implements Serializable {
 
     /**
      * Setter for pane
-     * @param mainframe
+     * @param mainframe <code> Pane </code>
      */
     public void setPane(Pane mainframe) {
         this.mainframe = mainframe;
