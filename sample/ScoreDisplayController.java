@@ -49,10 +49,10 @@ public class ScoreDisplayController {
             MainPageController mainPage = fxmlLoader.getController();
             mainPage.setCurrent_player(current_player);
             sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
-            Stage stage = new Stage();
-            stage.setScene(sc);
-            stage.show();
-            ((Stage) mainframe.getScene().getWindow()).hide();
+//            Stage stage = new Stage();
+//            stage.setScene(sc);
+//            stage.show();
+            ((Stage) mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -62,7 +62,10 @@ public class ScoreDisplayController {
 
     public void goToMainMenu(ActionEvent actionEvent) {
         try {
-            Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("Main_Page.fxml")));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_Page.fxml"));
+            Scene sc = new Scene(fxmlLoader.load());
+            MainPageController mainPage = fxmlLoader.getController();
+            mainPage.setCurrent_player(current_player);
             sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
             ((Stage) mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {

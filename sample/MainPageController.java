@@ -5,7 +5,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -44,7 +46,15 @@ public class MainPageController {
 
     public void goToLeaderboard(ActionEvent actionEvent) {
         try {
-            Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("LeaderboardPage.fxml")));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LeaderboardPage.fxml"));
+            Scene sc = new Scene(fxmlLoader.load());
+            LeaderboardPageController leaderboardpage = fxmlLoader.getController();
+            Leaderboard leaderboard = Leaderboard.deserialize();
+
+            leaderboardpage.setLeaders(leaderboard.getLeaders());
+
+            leaderboardpage.setCurrent_player(current_player);
+//            Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("LeaderboardPage.fxml")));
             sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
             ((Stage)mainframe.getScene().getWindow()).setScene(sc);
         } catch (IOException e) {

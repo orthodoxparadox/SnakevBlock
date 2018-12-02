@@ -861,6 +861,9 @@ public class Main extends Application implements Serializable {
         }
         if (isSnakeDead == -1) {
             P.serialize();
+            Leaderboard leaderboard = Leaderboard.deserialize();
+            leaderboard.updateLeaderboard(P);
+            leaderboard.serialize();
             (new File(P.getUsername() + "database.ser")).delete();
             animationTimer.stop();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ScoreDisplay.fxml"));

@@ -45,6 +45,7 @@ public class LoginController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_page.fxml"));
             Scene sc = new Scene((AnchorPane) fxmlLoader.load());
             MainPageController mainPage = fxmlLoader.getController();
+//            returning_player.serialize();
             mainPage.setCurrent_player(returning_player);
             sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
             ((Stage) mainframe.getScene().getWindow()).setScene(sc);

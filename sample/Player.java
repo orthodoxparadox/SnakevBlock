@@ -122,7 +122,12 @@ public class Player implements Serializable {
         ObjectInputStream reader = null;
         try {
             reader = new ObjectInputStream(new FileInputStream(dataFile));
-            return (Player) reader.readObject();
+            Player player = (Player) reader.readObject();
+            player.scoreLabel = new Label(Integer.toString(player.score));
+            player.coinsLabel = new Label(Integer.toString(player.coins));
+            player.scoreLabel.setTextFill(Color.WHITE);
+            player.coinsLabel.setTextFill(Color.WHITE);
+            return player;
         } catch (IOException | ClassNotFoundException e) {
             //no player found, take care of this
             e.printStackTrace();
@@ -151,5 +156,9 @@ public class Player implements Serializable {
         this.mainframe = mainframe;
         this.snake = new Snake(5, mainframe, width / 2, height / 2.0);
 //        System.out.println("issue");
+    }
+
+    public Pane getPane() {
+        return this.mainframe;
     }
 }
