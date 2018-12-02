@@ -24,6 +24,7 @@ public class MainPageController {
 
     public void startGame(ActionEvent actionEvent) {
         try {
+            System.out.println(2);
             String dataFile = current_player.getUsername();
             dataFile += "database.ser";
             current_game = Main.deserialize(dataFile);
@@ -32,6 +33,7 @@ public class MainPageController {
             Scene sc = new Scene((AnchorPane) fxmlLoader.load());
             PlayPageController playPage = fxmlLoader.getController();
             playPage.setCurrent_player(current_player);
+            if (current_game == null) System.out.println("confirm");
             if (current_game != null) playPage.setRunningGame(current_game);
             sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
             ((Stage)mainframe.getScene().getWindow()).setScene(sc);

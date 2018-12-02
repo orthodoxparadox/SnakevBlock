@@ -42,10 +42,12 @@ public class PlayPageController {
     public void startGame(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
         runningGame = new Main();
+        System.out.println(3);
         try {
             Stage stage = new Stage();
             System.out.println(current_player.getUsername());
             current_player.setPane(runningGame.mainframe);
+            System.out.println(runningGame.mainframe.getChildren().size());
             runningGame.setP(current_player);
             runningGame.start(stage);
             System.out.println("checker");

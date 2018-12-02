@@ -161,7 +161,7 @@ public class Snake implements Serializable {
         yc = head.getTranslateY();
     }
 
-    public void removeSnakeBalls(int strength)
+    public int removeSnakeBalls(int strength)
     {
         for(int i = 0; i < strength; i++)
         {
@@ -170,18 +170,11 @@ public class Snake implements Serializable {
             this.sizeLabel.setText(Integer.toString(sz));
             if(sz == 0)
             {
-                Scene sc = null;
-                try {
-                    sc = new Scene(FXMLLoader.load(getClass().getResource("ScoreDisplay.fxml")));
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
-                ((Stage) mainframe.getScene().getWindow()).setScene(sc);
-                return;
+                return -1;
             }
         }
         head = balls.get(0);
+        return 0;
     }
 
     public void moveTo(double v) {

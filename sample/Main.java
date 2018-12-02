@@ -482,6 +482,7 @@ public class Main extends Application implements Serializable {
 //        if(P == null) System.out.println("mess up");
 //        P.setPane(mainframe);
 //        P = new Player(mainframe);
+//        renewGame();
         HBox hBox = new HBox();
         hBox.setPrefHeight(height / 20);
         hBox.setPrefWidth(width);
@@ -755,8 +756,10 @@ public class Main extends Application implements Serializable {
     }
 
     private void BlockIntersection() throws InterruptedException {
+        int isSnakeDead = 0;
         for (Block block : blocks) {
             if (P.getSnake().checkIntersection(block)) {
+                System.out.println("here");
                 if (block.getTranslateY() > 185) {
 //                    System.out.println(P.getSnake().getXc() + " " + block.getTranslateX() + " " + block.getXc() + "LOL");
                     if (P.getSnake().getXc() > block.getXc() + 50) {
@@ -764,12 +767,13 @@ public class Main extends Application implements Serializable {
                     } else {
                         P.getSnake().moveTo(block.getXc() - 10);
                     }
-                    return;
+                    break;
+//                    return;
                 }
                 if(block.getStrength() == 1)
                 {
                     P.increaseScore(1);
-                    P.getSnake().removeSnakeBalls(1);
+                    isSnakeDead = P.getSnake().removeSnakeBalls(1);
                     mainframe.getChildren().removeAll(block, block.getLabel());
                     blocks.remove(block);
                     Circle expl = new Circle(P.getSnake().getXc(), P.getSnake().getYc() - 20, 10, img);
@@ -781,7 +785,8 @@ public class Main extends Application implements Serializable {
                         mainframe.getChildren().remove(expl);
                     });
                     explTr.play();
-                    return;
+                    break;
+//                    return;
                 }
                 if(P.getSnake().havePowerup(4))
                 {
@@ -797,14 +802,15 @@ public class Main extends Application implements Serializable {
                         mainframe.getChildren().remove(expl);
                     });
                     explTr.play();
-                    return;
+                    break;
+//                    return;
                 }
                 pushUp();
                 P.increaseScore(1);
                 block.decreaseStrength(1);
-                P.getSnake().removeSnakeBalls(1);
-                return;
-
+                isSnakeDead = P.getSnake().removeSnakeBalls(1);
+//                return;
+                break;
 //                if(P.getSnake().getYc() < )
 //                System.err.println(P.getSnake().getYc() + " " + block.getTranslateY());
 //                if (block.getTranslateY() > 185) {
@@ -852,6 +858,25 @@ public class Main extends Application implements Serializable {
 //                    return;
 //                }
             }
+        }
+        if (isSnakeDead == -1) {
+            P.serialize();
+            (new File(P.getUsername() + "database.ser")).delete();
+            animationTimer.stop();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ScoreDisplay.fxml"));
+            try {
+                Scene sc = new Scene((AnchorPane) fxmlLoader.load());
+                ScoreDisplayController scoreDisplay = fxmlLoader.getController();
+                scoreDisplay.setCurrent_player(P);
+                scoreDisplay.setScore(P.getScore());
+                sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
+//                if(mainframe == null) System.out.println("should not happen");
+//                if(mainframe.getScene().getWindow() == null) System.out.println("no");
+                ((Stage) mainframe.getScene().getWindow()).setScene(sc);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
