@@ -1,2 +1,4 @@
 # SnakevBlockFinal
-Snake vs Block game made for Advanced Programming Project - by Madhav Sainanee and Sushant Verma
+A single player game similar to the Snake v Block game found on mobile devices. Developed entirely using JavaFX framework
+
+Made for Advanced Programming Course (Monsoon Semester 2018) at IIIT-Delhi - by Madhav Sainanee and Sushant Verma
