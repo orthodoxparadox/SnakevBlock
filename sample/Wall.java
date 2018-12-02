@@ -6,6 +6,9 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.Serializable;
 
+/**
+ * Model class to hold Wall information
+ */
 public class Wall extends Rectangle implements Serializable {
     private static final long serialVersionUID = 42L;
     private final int width = Constants.width;
@@ -15,6 +18,13 @@ public class Wall extends Rectangle implements Serializable {
     private double yc;
     private double h;
 
+    /**
+     * Constructor for Wall class
+     *
+     * @param xc
+     * @param yc
+     * @param h
+     */
     public Wall(double xc, double yc, double h) {
         super(0, 0, 1, h);
         this.xc = xc;
@@ -24,12 +34,18 @@ public class Wall extends Rectangle implements Serializable {
         this.setTranslateX(xc);
         this.setTranslateY(yc);
     }
-    public void store()
-    {
+
+    /**
+     * Store function to prepare for serialization
+     */
+    public void store() {
         xc = getTranslateX();
         yc = getTranslateY();
     }
 
+    /**
+     * Restore function for deserialization
+     */
     public void restore() {
         setTranslateX(xc);
         setTranslateY(yc);

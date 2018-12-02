@@ -7,6 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Play/Resume Page
+ */
 public class PlayPageController {
 
 
@@ -19,14 +22,20 @@ public class PlayPageController {
     private Main runningGame;
     private Player current_player;
 
-    public Main getRunningGame() {
-        return runningGame;
-    }
 
+    /**
+     * Setter for runningGame
+     *
+     * @param runningGame
+     */
     public void setRunningGame(Main runningGame) {
         this.runningGame = runningGame;
     }
 
+    /**
+     * Function to resume game
+     * @param actionEvent
+     */
     public void resumeGame(ActionEvent actionEvent) {
         String dataFile = current_player.getUsername();
         dataFile += "database.ser";
@@ -40,6 +49,10 @@ public class PlayPageController {
         }
     }
 
+    /**
+     * Function to start new game
+     * @param actionEvent
+     */
     public void startGame(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
         runningGame = new Main();
@@ -58,10 +71,11 @@ public class PlayPageController {
         }
     }
 
-    public Player getCurrent_player() {
-        return current_player;
-    }
 
+    /**
+     * Setter for current_player
+     * @param current_player
+     */
     public void setCurrent_player(Player current_player) {
         this.current_player = current_player;
     }

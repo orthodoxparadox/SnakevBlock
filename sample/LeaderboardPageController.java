@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Controller class for Leaderboard Page
+ */
 public class LeaderboardPageController {
     @FXML
     private Button backbutton;
@@ -79,63 +82,21 @@ public class LeaderboardPageController {
     @FXML
     private Label date10;
 
-    public Label getScore1() {
-        return score1;
-    }
-
-    public void setScore1(Label score1) {
-        this.score1 = score1;
-    }
-
-    public Label getName1() {
-        return name1;
-    }
-
-    public void setName1(Label name1) {
-        this.name1 = name1;
-    }
-
-    public Label getScore2() {
-        return score2;
-    }
-
-    public void setScore2(Label score2) {
-        this.score2 = score2;
-    }
-
-    public Label getName2() {
-        return name2;
-    }
-
-    public void setName2(Label name2) {
-        this.name2 = name2;
-    }
-
-    public Label getScore3() {
-        return score3;
-    }
-
-    public void setScore3(Label score3) {
-        this.score3 = score3;
-    }
-
-    public Label getName3() {
-        return name3;
-    }
-
-    public void setName3(Label name3) {
-        this.name3 = name3;
-    }
-
-    public Player getCurrent_player() {
-        return current_player;
-    }
-
+    /**
+     * Setter for current_player
+     *
+     * @param current_player
+     */
     public void setCurrent_player(Player current_player) {
         this.current_player = current_player;
     }
 
     Player current_player;
+
+    /**
+     * Function to go back to main page
+     * @param actionEvent
+     */
     public void goBackToMainPage(ActionEvent actionEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_Page.fxml"));
@@ -150,6 +111,11 @@ public class LeaderboardPageController {
         }
     }
 
+    /**
+     * Setter for leaders
+     * @param leaders
+     * @param dates
+     */
     public void setLeaders(ArrayList<Player> leaders, ArrayList<String> dates) {
         name1.setText(leaders.get(0).getUsername());
         name2.setText(leaders.get(1).getUsername());

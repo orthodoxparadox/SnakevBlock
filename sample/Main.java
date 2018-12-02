@@ -16,7 +16,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -31,6 +30,9 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+/**
+ * Model class to hold Game information
+ */
 public class Main extends Application implements Serializable {
     public transient Pane mainframe;
     private static int debug = 0;
@@ -43,10 +45,11 @@ public class Main extends Application implements Serializable {
     ArrayList<Token> tokens = new ArrayList<Token>();
     ArrayList<Block> blocks = new ArrayList<Block>();
 
-    public Player getP() {
-        return P;
-    }
-
+    /**
+     * setter for Player
+     *
+     * @param p
+     */
     public void setP(Player p) {
         P = p;
     }
@@ -64,30 +67,31 @@ public class Main extends Application implements Serializable {
     private transient ImageView toggler;
     private boolean wantSound = true;
 
+    /**
+     * Main class
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
-    public void serialize()
-    {
+    /**
+     * Serialize
+     */
+    public void serialize() {
         ObjectOutputStream writer = null;
-        try
-        {
+        try {
             P.getSnake().save();
-            for(int i = 0; i < blocks.size(); i++)
-            {
+            for(int i = 0; i < blocks.size(); i++) {
                 blocks.get(i).store();
             }
-            for(int i = 0; i < tokens.size(); i++)
-            {
+            for(int i = 0; i < tokens.size(); i++) {
                 tokens.get(i).store();
             }
-            for(int i = 0; i < walls.size(); i++)
-            {
+            for(int i = 0; i < walls.size(); i++) {
                 walls.get(i).store();
             }
-            for(int i = 0; i < balls.size(); i++)
-            {
+            for(int i = 0; i < balls.size(); i++) {
                 balls.get(i).store();
             }
             String dataFile = P.getUsername();
@@ -98,8 +102,7 @@ public class Main extends Application implements Serializable {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 writer.close();
             } catch (IOException e) {
@@ -108,34 +111,33 @@ public class Main extends Application implements Serializable {
         }
     }
 
-    public static Main deserialize(String dataFile)
-    {
+    /**
+     * Deserialize
+     * @param dataFile
+     * @return deserializes <code> Main </code>
+     */
+    public static Main deserialize(String dataFile) {
         ObjectInputStream reader = null;
         Main get_Game = null;
-        try
-        {
+        try {
             reader = new ObjectInputStream(new FileInputStream(dataFile));
             get_Game = (Main) reader.readObject();
             get_Game.mainframe = new Pane();
             get_Game.P.restore();
-            get_Game.P.getSnake().ressurect(get_Game.mainframe);
-            for(int i = 0; i < get_Game.blocks.size(); i++)
-            {
+            get_Game.P.getSnake().resurrect(get_Game.mainframe);
+            for(int i = 0; i < get_Game.blocks.size(); i++) {
                 get_Game.blocks.get(i).restore();
                 get_Game.mainframe.getChildren().addAll(get_Game.blocks.get(i), get_Game.blocks.get(i).getLabel());
             }
-            for(int i = 0; i < get_Game.tokens.size(); i++)
-            {
+            for(int i = 0; i < get_Game.tokens.size(); i++) {
                 get_Game.tokens.get(i).restore();
                 get_Game.mainframe.getChildren().add(get_Game.tokens.get(i));
             }
-            for(int i = 0; i < get_Game.walls.size(); i++)
-            {
+            for(int i = 0; i < get_Game.walls.size(); i++) {
                 get_Game.walls.get(i).restore();
                 get_Game.mainframe.getChildren().add(get_Game.walls.get(i));
             }
-            for(int i = 0; i < get_Game.balls.size(); i++)
-            {
+            for(int i = 0; i < get_Game.balls.size(); i++) {
                 get_Game.balls.get(i).restore();
                 get_Game.mainframe.getChildren().addAll(get_Game.balls.get(i), get_Game.balls.get(i).getLabel());
             }
@@ -158,8 +160,10 @@ public class Main extends Application implements Serializable {
         return get_Game;
     }
 
-    public void renewGame()
-    {
+    /**
+     * renews Game by re-adding GUI elements
+     */
+    public void renewGame() {
         mainframe.getChildren().clear();
         P.setSnake(new Snake(4, mainframe, width/2, height/2));
         P.setScore(0);
@@ -187,13 +191,10 @@ public class Main extends Application implements Serializable {
             if(gameMenu.getValue().equals("Pause")) {
                 gameMenu.getItems().set(0, "Resume");
                 animationTimer.stop();
-            }
-            else if(gameMenu.getValue().equals("Resume")) {
+            } else if(gameMenu.getValue().equals("Resume")) {
                 gameMenu.getItems().set(0, "Pause");
                 animationTimer.start();
-            }
-            else if(gameMenu.getValue().equals("Exit"))
-            {
+            } else if(gameMenu.getValue().equals("Exit")) {
                 animationTimer.stop();
                 isRunning = false;
                 this.serialize();
@@ -209,9 +210,7 @@ public class Main extends Application implements Serializable {
                 mainPage.setCurrent_player(P);
                 sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
                 ((Stage) mainframe.getScene().getWindow()).setScene(sc);
-            }
-            else if(gameMenu.getValue().equals("Restart"))
-            {
+            } else if(gameMenu.getValue().equals("Restart")) {
                 renewGame();
                 animationTimer.start();
             }
@@ -235,6 +234,11 @@ public class Main extends Application implements Serializable {
     }
 
 
+    /**
+     * Make row of blocks
+     * @param pos
+     * @param strength
+     */
     public void makeRowOfBlocks(ArrayList<Integer> pos, ArrayList<Integer> strength) {
         int cnt = pos.size();
         for (int i = 0; i < cnt; i++) {
@@ -245,6 +249,13 @@ public class Main extends Application implements Serializable {
         }
     }
 
+    /**
+     * Make a new wall
+     * @param pos
+     * @param y
+     * @param height
+     * @return a <code> Boolean </code> indicating successful addition
+     */
     public boolean addWall(int pos, double y, double height) {
         Wall to_add = new Wall(pos * width / rows, y, height);
         if (!intersection(to_add)) {
@@ -255,6 +266,11 @@ public class Main extends Application implements Serializable {
         return false;
     }
 
+    /**
+     * Check for intersection of snake against GUI elements
+     * @param to_add
+     * @return a <code> Boolean </code> indicating intersection
+     */
     public boolean intersection(Node to_add) {
         for (int i = 0; i < balls.size(); i++) {
             Bounds b = to_add.getBoundsInParent();
@@ -283,6 +299,9 @@ public class Main extends Application implements Serializable {
         return false;
     }
 
+    /**
+     * Generates GUI content after fixed intervals
+     */
     public void generateAndRefresh() {
 //        System.out.println("check" + " " + debug++);
         if (t > 10) {
@@ -386,6 +405,13 @@ public class Main extends Application implements Serializable {
 //        System.out.println("check" + debug--);
     }
 
+    /**
+     * Make new ball
+     * @param x
+     * @param y
+     * @param strength
+     * @return a <code> Boolean </code> indicating successful addition
+     */
     private boolean addBall(double x, double y, int strength) {
         Ball b = new Ball(x, y, strength);
         if (!intersection(b)) {
@@ -396,6 +422,13 @@ public class Main extends Application implements Serializable {
         return false;
     }
 
+    /**
+     * Make new token
+     * @param x
+     * @param y
+     * @param type
+     * @return a <code> Boolean </code> indicating successful addition
+     */
     private boolean addToken(double x, double y, int type) {
         switch (type) {
             case 1:
@@ -434,6 +467,10 @@ public class Main extends Application implements Serializable {
         return false;
     }
 
+    /**
+     * Function to move Snake
+     * @param direction
+     */
     private void move(int direction) {
         if (direction == 1) {
             //move towards Right
@@ -461,6 +498,10 @@ public class Main extends Application implements Serializable {
         }
     }
 
+    /**
+     * Function to assign speed of the game
+     * @return a <code> Double </code> gamespeed
+     */
     private double assignGameSpeed() {
         double base_speed = 3;
         int snakeLength = P.getSnake().getSz();
@@ -470,11 +511,19 @@ public class Main extends Application implements Serializable {
     }
 
 
+    /**
+     * Constructor for Main class
+     */
     Main() {
         mainframe = new Pane();
         mainframe.setPrefSize(width, height);
     }
 
+    /**
+     * Start for javafx class
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 //        mainframe = new Pane();
@@ -503,13 +552,10 @@ public class Main extends Application implements Serializable {
             if(gameMenu.getValue().equals("Pause")) {
                 gameMenu.getItems().set(0, "Resume");
                 animationTimer.stop();
-            }
-            else if(gameMenu.getValue().equals("Resume")) {
+            } else if(gameMenu.getValue().equals("Resume")) {
                 gameMenu.getItems().set(0, "Pause");
                 animationTimer.start();
-            }
-            else if(gameMenu.getValue().equals("Exit"))
-            {
+            } else if(gameMenu.getValue().equals("Exit")) {
                 animationTimer.stop();
                 isRunning = false;
                 this.serialize();
@@ -536,9 +582,7 @@ public class Main extends Application implements Serializable {
 //                }
 //                sc.getStylesheets().add(getClass().getResource("stylize.css").toExternalForm());
 //                ((Stage) mainframe.getScene().getWindow()).setScene(sc);
-            }
-            else if(gameMenu.getValue().equals("Restart"))
-            {
+            } else if(gameMenu.getValue().equals("Restart")) {
                 renewGame();
                 animationTimer.start();
             }
@@ -600,6 +644,10 @@ public class Main extends Application implements Serializable {
         primaryStage.show();
     }
 
+    /**
+     * refreshes GUI
+     * @throws InterruptedException
+     */
     private void refreshGUI() throws InterruptedException {
 //        System.out.println(walls.size() + " " + blocks.size() + " " + tokens.size() + " " + balls.size());
         Random r = new Random(System.currentTimeMillis());
@@ -718,10 +766,8 @@ public class Main extends Application implements Serializable {
         for (Block aTo_be_removedB : to_be_removedB) {
             blocks.remove(aTo_be_removedB);
         }
-        if(P.getSnake().havePowerup(3))
-        {
-            for(Block b : blocks)
-            {
+        if(P.getSnake().havePowerup(3)) {
+            for(Block b : blocks) {
                 mainframe.getChildren().removeAll(b, b.getLabel());
                 P.increaseScore(b.getStrength());
             }
@@ -733,6 +779,9 @@ public class Main extends Application implements Serializable {
         BallIntersection();
     }
 
+    /**
+     * Remove balls after ball intersection
+     */
     private void BallIntersection() {
         for (Ball ball : balls) {
             if (P.getSnake().checkIntersection(ball)) {
@@ -744,6 +793,9 @@ public class Main extends Application implements Serializable {
         }
     }
 
+    /**
+     * Restrict Snake after wall intersection
+     */
     private void WallIntersection() {
         for (Wall wall : walls) {
             if (P.getSnake().checkIntersection(wall)) {
@@ -755,6 +807,10 @@ public class Main extends Application implements Serializable {
         }
     }
 
+    /**
+     * Reduce Block and Snake Strengths following intersection
+     * @throws InterruptedException
+     */
     private void BlockIntersection() throws InterruptedException {
         int isSnakeDead = 0;
         for (Block block : blocks) {
@@ -770,8 +826,7 @@ public class Main extends Application implements Serializable {
                     break;
 //                    return;
                 }
-                if(block.getStrength() == 1)
-                {
+                if(block.getStrength() == 1) {
                     P.increaseScore(1);
                     isSnakeDead = P.getSnake().removeSnakeBalls(1);
                     mainframe.getChildren().removeAll(block, block.getLabel());
@@ -788,8 +843,7 @@ public class Main extends Application implements Serializable {
                     break;
 //                    return;
                 }
-                if(P.getSnake().havePowerup(4))
-                {
+                if(P.getSnake().havePowerup(4)) {
                     P.increaseScore(block.getStrength());
                     mainframe.getChildren().removeAll(block, block.getLabel());
                     blocks.remove(block);
@@ -883,6 +937,9 @@ public class Main extends Application implements Serializable {
         }
     }
 
+    /**
+     * Bounce effect after block collision
+     */
     private void pushUp() {
         int fac = 2;
         ArrayList<Wall> to_be_removedW = new ArrayList<Wall>();

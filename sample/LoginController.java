@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 
+/**
+ * Main screen after startup
+ */
 public class LoginController {
     @FXML
     private TextField username;
@@ -26,6 +29,11 @@ public class LoginController {
     private String input_username;
     private Player returning_player;
 
+    /**
+     * Function to register new user
+     *
+     * @param actionEvent
+     */
     public void make_account(ActionEvent actionEvent) {
         try {
             Scene sc = new Scene(FXMLLoader.load(getClass().getResource("Make_Account.fxml")));
@@ -36,6 +44,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * Function to login existing user
+     * @param actionEvent
+     */
     public void login(ActionEvent actionEvent) {
         if (username.getText() != null)
             input_username = username.getText();
@@ -54,6 +66,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * getter for Player
+     * @return a <code> Player </code> player
+     */
     private Player getPlayer() {
         String dataFile = input_username;
         return Player.deserialize(dataFile);

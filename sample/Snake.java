@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Model class to hold Snake information
+ */
 public class Snake implements Serializable {
     private static final long serialVersionUID = 42L;
     private final int width = Constants.width;
@@ -27,46 +30,23 @@ public class Snake implements Serializable {
     private boolean[] powers;
     private long[] powertime;
 
-    public int getWidth() {
-        return width;
-    }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public SnakeBall getHead() {
-        return head;
-    }
-
-    public void setHead(SnakeBall head) {
-        this.head = head;
-    }
-
-    public boolean[] getPowers() {
-        return powers;
-    }
-
-    public void setPowers(boolean[] powers) {
-        this.powers = powers;
-    }
-
-    public long[] getPowertime() {
-        return powertime;
-    }
-
-    public void setPowertime(long[] powertime) {
-        this.powertime = powertime;
-    }
-
+    /**
+     * Getter for sizeLabel
+     *
+     * @return a <code> Label </code> sizeLabel
+     */
     public Label getSizeLabel() {
         return sizeLabel;
     }
 
+    /**
+     * Constructor for Snake class
+     * @param sz
+     * @param mainframe
+     * @param xc
+     * @param yc
+     */
     Snake(int sz, Pane mainframe, double xc, double yc) {
         this.powers = new boolean[5];
         this.powertime = new long[5];
@@ -77,8 +57,7 @@ public class Snake implements Serializable {
         this.xc = xc;
         this.yc = yc;
         double cury = yc;
-        for(int i = 0; i < sz; i++)
-        {
+        for(int i = 0; i < sz; i++) {
             SnakeBall B = new SnakeBall(xc, cury);
             balls.add(B);
             cury += 8;
@@ -87,66 +66,82 @@ public class Snake implements Serializable {
         head = balls.get(0);
     }
 
-    public void moveRight(double dist)
-    {
+    /**
+     * Function to move right
+     * @param dist
+     */
+    public void moveRight(double dist) {
         balls.forEach(s -> s.moveRight(dist));
         head = balls.get(0);
     }
 
-    public void moveLeft(double dist)
-    {
+    /**
+     * Function to move left
+     * @param dist
+     */
+    public void moveLeft(double dist) {
         balls.forEach(s -> s.moveLeft(dist));
         head = balls.get(0);
     }
 
+    /**
+     * Getter for size
+     * @return an <code> Integer </code> size
+     */
     public int getSz() {
         return sz;
     }
 
-    public void setSz(int sz) {
-        this.sz = sz;
-    }
 
+    /**
+     * Getter for mainframe
+     * @return a <code> Pane </code> mainframe
+     */
     public Pane getMainframe() {
         return mainframe;
     }
 
+    /**
+     * Setter for mainframe
+     * @param mainframe
+     */
     public void setMainframe(Pane mainframe) {
         this.mainframe = mainframe;
     }
 
+    /**
+     * Getter for x-coordinate
+     * @return a <code> Double </code> xc
+     */
     public double getXc() {
         return head.getTranslateX();
     }
 
-    public void setXc(double xc) {
-        this.xc = xc;
-    }
-
+    /**
+     * Getter for x-coordinate
+     * @return a <code> Double </code> xc
+     */
     public double getYc() {
         return head.getTranslateY();
     }
 
-    public void setYc(double yc) {
-        this.yc = yc;
-    }
 
-    public ArrayList<SnakeBall> getBalls() {
-        return balls;
-    }
-
-    public void setBalls(ArrayList<SnakeBall> balls) {
-        this.balls = balls;
-    }
-
+    /**
+     * Function to check intersection of Snake
+     * @param node
+     * @return a <code> Boolean </code> to indicate intersection
+     */
     public boolean checkIntersection(Node node) {
         return sz > 0 && head.getBoundsInParent().intersects(node.getBoundsInParent());
     }
 
+    /**
+     * Function to add Snake balls
+     * @param strength
+     */
     public void addSnakeBalls(int strength) {
         System.out.println(strength);
-        for(int i = 0; i < strength; i++)
-        {
+        for(int i = 0; i < strength; i++) {
             SnakeBall s = new SnakeBall(head.getTranslateX(), yc + 8*sz);
             mainframe.getChildren().add(s);
             balls.add(s);
@@ -156,21 +151,25 @@ public class Snake implements Serializable {
         head = balls.get(0);
     }
 
-    public void save()
-    {
+    /**
+     * Save function to prepare for serialization
+     */
+    public void save() {
         xc = head.getTranslateX();
         yc = head.getTranslateY();
     }
 
-    public int removeSnakeBalls(int strength)
-    {
-        for(int i = 0; i < strength; i++)
-        {
+    /**
+     * Function to remove Snake balls
+     * @param strength
+     * @return an <code> Integer </code> to indicate Snake alive status
+     */
+    public int removeSnakeBalls(int strength) {
+        for(int i = 0; i < strength; i++) {
             mainframe.getChildren().remove(balls.get(sz-1));
             balls.remove(sz-1); sz--;
             this.sizeLabel.setText(Integer.toString(sz));
-            if(sz == 0)
-            {
+            if(sz == 0) {
                 return -1;
             }
         }
@@ -178,45 +177,67 @@ public class Snake implements Serializable {
         return 0;
     }
 
+    /**
+     * Function to move Snake to a location
+     * @param v
+     */
     public void moveTo(double v) {
         balls.forEach(s -> s.moveTo(v));
         head = balls.get(0);
     }
 
+    /**
+     * Function to give powerup to snake
+     * @param k
+     * @param t
+     */
     public void givePowerup(int k, long t) {
         powers[k] = true;
         powertime[k] = t;
     }
 
+    /**
+     * Function to check powerup validity and invalidate upon expiry
+     */
     public void reducePowerups() {
-        for(int i = 1; i < 5; i++)
-        {
-            if(powers[i])
-            {
-                if(System.currentTimeMillis() > powertime[i] + 10000)
-                {
+        for(int i = 1; i < 5; i++) {
+            if(powers[i]) {
+                if(System.currentTimeMillis() > powertime[i] + 10000) {
                     System.out.println(System.currentTimeMillis() + " " + powertime[i] + " " + i);
                     powers[i] = false;
                 }
             }
         }
     }
-    public void endPowerup(int k)
-    {
+
+    /**
+     * Function to remove powerup
+     * @param k
+     */
+    public void endPowerup(int k) {
         powers[k] = false;
         powertime[k] = 0;
     }
 
+    /**
+     * Function to check active powerup
+     * @param i
+     * @return
+     */
     public boolean havePowerup(int i) {
         return powers[i];
     }
 
-    public void ressurect(Pane mainframe) {
+    /**
+     * Function to resurrect Snake
+     *
+     * @param mainframe
+     */
+    public void resurrect(Pane mainframe) {
         this.mainframe = mainframe;
         balls.clear();
         double cury = yc;
-        for(int i = 0; i < sz; i++)
-        {
+        for(int i = 0; i < sz; i++) {
             SnakeBall B = new SnakeBall(xc, cury);
             balls.add(B);
             cury += 8;

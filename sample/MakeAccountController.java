@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller class for MakeAccount Page
+ */
 public class MakeAccountController {
 
     @FXML
@@ -21,6 +24,11 @@ public class MakeAccountController {
     private TextField username_tf;
     private String username;
 
+    /**
+     * Function to make new account
+     *
+     * @param actionEvent
+     */
     public void makeNewAccount(ActionEvent actionEvent) {
         if (username_tf.getText() != null)
             username = username_tf.getText();

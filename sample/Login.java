@@ -9,8 +9,17 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
+/**
+ * Login class for initialising LoginController
+ */
 public class Login extends Application {
 
+    /**
+     * Start for javafx classes
+     *
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent mainframe = FXMLLoader.load(getClass().getResource("Login.fxml"));
@@ -21,6 +30,10 @@ public class Login extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Main function
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }

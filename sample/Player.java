@@ -6,6 +6,9 @@ import javafx.scene.paint.Color;
 
 import java.io.*;
 
+/**
+ * Model class to hold Player information
+ */
 public class Player implements Serializable {
     private static final long serialVersionUID = 42L;
     private final int width = Constants.width;
@@ -31,6 +34,11 @@ public class Player implements Serializable {
         this.mainframe = mainframe;
     }
 
+    /**
+     * Constructor for Player class
+     *
+     * @param username
+     */
     public Player(String username) {
         this.username = username;
         this.score = 0;
@@ -42,61 +50,79 @@ public class Player implements Serializable {
 //        this.snake = new Snake(5, mainframe, width/2, height/2.0);
     }
 
-    public int getWidth() {
-        return width;
-    }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public Pane getMainframe() {
-        return mainframe;
-    }
-
+    /**
+     * Getter for score
+     * @return an <code> Integer </code> score
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Getter for snake
+     * @return a <code> Snake </code> snake
+     */
     public Snake getSnake() {
         return snake;
     }
 
+    /**
+     * Getter for scoreLabel
+     * @return a <code> Label </code> scoreLabel
+     */
     public Label getScoreLabel() {
         return scoreLabel;
     }
 
+
+    /**
+     * Setter for snake
+     * @param snake
+     */
     public void setSnake(Snake snake) {
         this.snake = snake;
     }
 
-    public void increaseScore(int i) {
-        this.score += i;
+    /**
+     * Increase player score by factor
+     *
+     * @param factor
+     */
+    public void increaseScore(int factor) {
+        this.score += factor;
         this.scoreLabel.setText(Integer.toString(this.score));
     }
 
-    public int getCoins() {
-        return coins;
-    }
-
+    /**
+     * Getter for coinsLabel
+     * @return a <code> Label </code> coinsLabel
+     */
     public Label getCoinsLabel() {
         return coinsLabel;
     }
 
+    /**
+     * Add coins to Player account
+     */
     public void addCoin() {
         this.coins++;
         this.coinsLabel.setText(Integer.toString(this.coins));
     }
 
-    public void setScore(int i) {
-        score = i;
+    /**
+     * Setter for score
+     *
+     * @param score
+     */
+    public void setScore(int score) {
+        score = score;
         scoreLabel.setText(Integer.toString(score));
     }
 
+    /**
+     * Serialize
+     */
     public void serialize() {
         String dataFile = this.username;
         dataFile += ".ser";
@@ -117,6 +143,11 @@ public class Player implements Serializable {
     }
 
 
+    /**
+     * Deserialize
+     * @param username
+     * @return deserialized <code> Player </code>
+     */
     public static Player deserialize(String username) {
         String dataFile = username;
         dataFile += ".ser";
@@ -137,29 +168,33 @@ public class Player implements Serializable {
     }
 
 
-    public void restore()
-    {
+    /**
+     * Restore function for deserialize
+     */
+    public void restore() {
         scoreLabel = new Label(Integer.toString(score));
         coinsLabel = new Label(Integer.toString(coins));
         coinsLabel.setTextFill(Color.WHITE);
         scoreLabel.setTextFill(Color.WHITE);
     }
 
+    /**
+     * Getter for username
+     * @return a <code> String </code> username
+     */
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
+    /**
+     * Setter for pane
+     * @param mainframe
+     */
     public void setPane(Pane mainframe) {
         this.mainframe = mainframe;
         this.snake = new Snake(5, mainframe, width / 2, height / 2.0);
 //        System.out.println("issue");
     }
 
-    public Pane getPane() {
-        return this.mainframe;
-    }
 }

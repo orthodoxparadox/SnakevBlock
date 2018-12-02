@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller class for Main Page
+ */
 public class MainPageController {
 
     @FXML
@@ -24,6 +27,11 @@ public class MainPageController {
     private Main current_game;
 
 
+    /**
+     * Function to start new Game
+     *
+     * @param actionEvent
+     */
     public void startGame(ActionEvent actionEvent) {
         try {
             System.out.println(2);
@@ -44,6 +52,10 @@ public class MainPageController {
         }
     }
 
+    /**
+     * Function to redirect to leaderboard
+     * @param actionEvent
+     */
     public void goToLeaderboard(ActionEvent actionEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LeaderboardPage.fxml"));
@@ -62,10 +74,10 @@ public class MainPageController {
         }
     }
 
-    public Player getCurrent_player() {
-        return current_player;
-    }
-
+    /**
+     * Setter for current player
+     * @param current_player
+     */
     public void setCurrent_player(Player current_player) {
         this.current_player = current_player;
     }

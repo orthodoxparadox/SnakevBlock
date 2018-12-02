@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller class for ScoreDisplay Page
+ */
 public class ScoreDisplayController {
     @FXML
     private Button mainMenuButton;
@@ -26,11 +29,20 @@ public class ScoreDisplayController {
     private Player current_player;
 
 
+    /**
+     * Setter for score
+     *
+     * @param score
+     */
     public void setScore(int score) {
         scoreLabel.setText((Integer.toString(score)));
         scoreLabel.setTextFill(Color.WHITE);
     }
 
+    /**
+     * Function to start new Game
+     * @param actionEvent
+     */
     public void startNewGame(ActionEvent actionEvent) {
         try {
 //            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
@@ -60,6 +72,10 @@ public class ScoreDisplayController {
         }
     }
 
+    /**
+     * Function to return to Main Menu
+     * @param actionEvent
+     */
     public void goToMainMenu(ActionEvent actionEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Main_Page.fxml"));
@@ -73,10 +89,11 @@ public class ScoreDisplayController {
         }
     }
 
-    public Player getCurrent_player() {
-        return current_player;
-    }
 
+    /**
+     * Setter for current_player
+     * @param current_player
+     */
     public void setCurrent_player(Player current_player) {
         this.current_player = current_player;
     }
