@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Block extends Rectangle implements Serializable {
+    private static final long serialVersionUID = 42L;
     private final int width = Constants.width;
     private final int height = Constants.height;
     private final int rows = Constants.rows;

@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Snake implements Serializable {
+    private static final long serialVersionUID = 42L;
     private final int width = Constants.width;
     private final int height = Constants.height;
     private final int rows = Constants.rows;

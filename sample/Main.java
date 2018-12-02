@@ -884,7 +884,7 @@ public class Main extends Application implements Serializable {
     }
 
     private void pushUp() {
-        int fac = 4;
+        int fac = 2;
         ArrayList<Wall> to_be_removedW = new ArrayList<Wall>();
         IntStream.range(0, walls.size()).forEachOrdered(i -> {
             walls.get(i).setTranslateY(walls.get(i).getTranslateY() - fac * refreshRate / 2);

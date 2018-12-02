@@ -28,10 +28,11 @@ public class PlayPageController {
     }
 
     public void resumeGame(ActionEvent actionEvent) {
-        ((Node) actionEvent.getSource()).getScene().getWindow().hide();
         String dataFile = current_player.getUsername();
         dataFile += "database.ser";
         runningGame = Main.deserialize(dataFile);
+        if (runningGame == null) return;
+        ((Node) actionEvent.getSource()).getScene().getWindow().hide();
         try {
             runningGame.start(new Stage());
         } catch (Exception e) {

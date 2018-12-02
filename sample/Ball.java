@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Ball extends Circle implements Serializable {
+    private static final long serialVersionUID = 42L;
     private final int width = Constants.width;
     private final int height = Constants.height;
     private final int rows = Constants.rows;

@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 import java.io.Serializable;
 
 public class Wall extends Rectangle implements Serializable {
+    private static final long serialVersionUID = 42L;
     private final int width = Constants.width;
     private final int height = Constants.height;
     private final int rows = Constants.rows;

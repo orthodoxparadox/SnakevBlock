@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Leaderboard implements Serializable {
+    private static final long serialVersionUID = 42L;
     public ArrayList<Player> getLeaders() {
         return leaders;
     }

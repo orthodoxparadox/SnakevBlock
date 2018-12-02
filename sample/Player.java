@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import java.io.*;
 
 public class Player implements Serializable {
+    private static final long serialVersionUID = 42L;
     private final int width = Constants.width;
     private final int height = Constants.height;
     private final int rows = Constants.rows;
