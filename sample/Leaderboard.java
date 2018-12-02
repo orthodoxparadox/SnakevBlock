@@ -1,7 +1,11 @@
 package sample;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Leaderboard implements Serializable {
     private static final long serialVersionUID = 42L;
@@ -13,23 +17,35 @@ public class Leaderboard implements Serializable {
         this.leaders = leaders;
     }
 
+    public ArrayList<String> getDates() {
+        return dates;
+    }
     private ArrayList<Player> leaders;
+    private ArrayList<String> dates;
 
     Leaderboard() {
         this.leaders = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        this.dates = new ArrayList<String>();
+        for (int i = 0; i < 10; i++) {
             Player player = new Player("-");
             leaders.add(player);
+            dates.add("-");
         }
+        System.out.println(dates.size());
     }
 
     public void updateLeaderboard(Player current_player) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
             if (current_player.getScore() > leaders.get(i).getScore()) {
-                for (int j = 2; j > i; j--) {
+                for (int j = 9; j > i; j--) {
                     leaders.set(j, leaders.get(j - 1));
+                    System.out.println(dates.size());
+                    dates.set(j, dates.get(j - 1));
                 }
                 leaders.set(i, current_player);
+                DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
+                LocalDate now = LocalDate.now();
+                dates.set(i, now.toString());
                 break;
             }
         }

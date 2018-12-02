@@ -51,7 +51,7 @@ public class MainPageController {
             LeaderboardPageController leaderboardpage = fxmlLoader.getController();
             Leaderboard leaderboard = Leaderboard.deserialize();
 
-            leaderboardpage.setLeaders(leaderboard.getLeaders());
+            leaderboardpage.setLeaders(leaderboard.getLeaders(), leaderboard.getDates());
 
             leaderboardpage.setCurrent_player(current_player);
 //            Scene sc = new Scene((AnchorPane) FXMLLoader.load(getClass().getResource("LeaderboardPage.fxml")));
